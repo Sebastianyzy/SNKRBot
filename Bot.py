@@ -1,3 +1,4 @@
+import selenium
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -9,43 +10,44 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
 
-
-NRML = "https://nrml.ca/products/"
 PATH = "/Users/seb/Chromedriver/chromedriver"
 driver = webdriver.Chrome(PATH)
 
+DEADSTOCK = "https://www.deadstock.ca/cart/"
+NRML = "https://nrml.ca/products/"
 
-def Generate_Early_Link(s, site):
-    link = ""
-    for char in s: 
-        if(char == " "):
-            link += "-"
-        elif(char.isalpha() or char. isnumeric()):
-            link += char.lower() 
-    return site+link
+# #Generate early link for snkers
+# def Generate_Early_Link(s, site):
+#     link = ""
+#     for char in s: 
+#         if(char == " "):
+#             link += "-"
+#         elif(char.isalpha() or char. isnumeric()):
+#             link += char.lower() 
+#     return site+link
 
-confirm = input("NRML? Y/N")
-if(confirm.lower() == "y"):
-    CALENDAR_LINK = "https://nrml.ca/blogs/release-calendar" 
-    driver.get(CALENDAR_LINK)
-    calendar = []
-    release_blog = driver.find_elements_by_class_name("font-heading")
-    for shoes in release_blog:
-        kicks = shoes.text
-        if(kicks == "NEWSLETTER"):
-            break
-        elif(kicks != "" and kicks != "RELEASE CALENDAR"):
-            kicks = kicks.strip()
-            calendar.append(kicks)
-    for shoes in calendar:
-        print(Generate_Early_Link(shoes, NRML))
-    driver.quit()    
-elif(confirm.lower() == "n"):
-    print("exit")
-    exit
-else:
-    print("Error")
-    exit     
+# confirm = input("NRML? Y/N")
+# if(confirm.lower() == "y"):
+#     CALENDAR_LINK = "https://nrml.ca/blogs/release-calendar" 
+#     driver.get(CALENDAR_LINK)
+#     calendar = []
+#     release_blog = driver.find_elements_by_class_name("font-heading")
+#     for shoes in release_blog:
+#         kicks = shoes.text
+#         if(kicks == "NEWSLETTER"):
+#             break
+#         elif(kicks != "" and kicks != "RELEASE CALENDAR"):
+#             kicks = kicks.strip()
+#             calendar.append(kicks)
+#     for shoes in calendar:
+#         print(Generate_Early_Link(shoes, NRML))
+#     driver.quit()    
+# elif(confirm.lower() == "n"):
+#     print("exit")
+#     exit
+# else:
+#     print("Error")
+#     exit     
 
 
 
@@ -100,39 +102,32 @@ else:
 # submit = driver.find_element_by_class_name("btn")
 # ActionChains(driver).move_to_element(submit).click(submit).perform()
 # driver.refresh()
-#driver.get(LINK)
+# driver.get(LINK)
 # boo = True
 # while boo:
 #     try:
-#         add_to_cart = driver.find_element_by_class_name("add-to-cart")
-#         ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
+#         driver.find_element_by_class_name("add-to-cart").click()
 #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
 #         boo = False
 #     except:
 #         driver.refresh()
 
 
-# #log in
+# # NRML login + auto checkout
 # EMAIL = "sebyzy@gmail.com"
 # PASSWORD = 
 # LOG_IN = "https://nrml.ca/account"
-# LINK = "https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
-
-
+# LINK = "https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"#"https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
 # driver.get(LOG_IN)
-# email = driver.find_element_by_id("CustomerEmail")
-# email.send_keys(EMAIL)
-# password = driver.find_element_by_id("CustomerPassword")
-# password.send_keys(PASSWORD)
-# submit = driver.find_element_by_class_name("btn")
-# ActionChains(driver).move_to_element(submit).click(submit).perform()
+# driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
+# driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
+# driver.find_element_by_class_name("btn").click()
 # driver.refresh()
 # driver.get(LINK)
 # boo = True
 # while boo:
 #     try:
-#         add_to_cart = driver.find_element_by_class_name("add-to-cart")
-#         ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
+#         driver.find_element_by_class_name("add-to-cart").click()
 #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
 #         boo = False
 #     except:
@@ -172,13 +167,9 @@ else:
 # boo = True
 # while boo:
 #     try:
-#         add_to_cart = driver.find_element_by_class_name("add-to-cart")
-#         ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
-#         try:
-#             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-#         finally:
-#             boo = False
-        
+#         driver.find_element_by_class_name("add-to-cart").click()
+#         WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
+#         boo = False
 #     except:
 #         driver.refresh()
 

@@ -1,4 +1,7 @@
 import selenium
+import bs4
+import requests
+import json
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -11,10 +14,30 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 PATH = "/Users/seb/Chromedriver/chromedriver"
-driver = webdriver.Chrome(PATH)
-
-DEADSTOCK = "https://www.deadstock.ca/cart/"
 NRML = "https://nrml.ca/products/"
+DEADSTOCK = "https://www.deadstock.ca/products/jordan-1-centre-court-white-military-blue"  #"https://www.deadstock.ca/cart/"
+
+
+# Get shoe id
+request = requests.get(DEADSTOCK)
+bs = bs4.BeautifulSoup(request.text, "html.parser")
+scripts = bs.find_all("script")
+jsonObj = None
+
+for s in scripts:
+    if "var meta" in s.text:
+        print("-----------------")
+        print(s.text)
+        script = s.text
+        script = script.split("var meta = ")[1]
+        script = script.split(";\nfor (var attr in meta)")[0]
+
+        jsonStr = script
+        jsonObj = json.loads(jsonStr)
+
+for value in jsonObj["product"]["variants"]:
+    print ("ID: "+ str(value["id"]), "Size: " + str(value["public_title"]))
+    
 
 # #Generate early link for snkers
 # def Generate_Early_Link(s, site):
@@ -25,6 +48,7 @@ NRML = "https://nrml.ca/products/"
 #         elif(char.isalpha() or char. isnumeric()):
 #             link += char.lower() 
 #     return site+link
+
 
 # confirm = input("NRML? Y/N")
 # if(confirm.lower() == "y"):
@@ -114,8 +138,9 @@ NRML = "https://nrml.ca/products/"
 
 
 # # NRML login + auto checkout
+# driver = webdriver.Chrome(PATH)
 # EMAIL = "sebyzy@gmail.com"
-# PASSWORD = 
+# PASSWORD = "" #input("enter password:")
 # LOG_IN = "https://nrml.ca/account"
 # LINK = "https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"#"https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
 # driver.get(LOG_IN)

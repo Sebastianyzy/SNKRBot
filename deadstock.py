@@ -10,3 +10,15 @@ def deadstock_pull_calendar(driver, link, calendar):
     for shoes in release_blog:
         calendar.append(shoes.text)
     return calendar
+
+
+
+def deadstock_generate_early_link(shoe_name, early_link):
+    ans = ""
+    for char in shoe_name: 
+        if(char == " "):
+            ans += "-"
+        elif(char.isalpha() or char. isnumeric()):
+            ans += char.lower() 
+    return early_link+ans   
+     

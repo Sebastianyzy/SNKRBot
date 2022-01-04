@@ -7,7 +7,7 @@ import deadstock
 def main():
     print("running SNKRBot...\n")
     print("---------\nmain menu---------\n")
-    RETAILER = input("choose site:\n(A)NRML\n(B)Deadstock\n(C)Capsul Toronto\n\nenter 'q' to exit\n\n").lower()
+    RETAILER = input("choose site to run:\n(A)NRML\n(B)Deadstock\n(C)Capsul Toronto\n\n or enter 'q' to exit\n\n").lower()
     if(RETAILER == "a" or RETAILER == "b" or RETAILER == "c"):
         calendar = []
         print("transfering...\n")

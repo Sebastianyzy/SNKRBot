@@ -1,4 +1,7 @@
 from requests.models import CONTENT_CHUNK_SIZE, requote_uri
+from selenium.webdriver.remote.webelement import WebElement
+from capsule_toronto import run_capsule_toronto
+from deadstock import deadstock_generate_early_link
 import capsule_toronto
 import deadstock
 import nrml
@@ -21,7 +24,148 @@ from selenium.common.exceptions import NoSuchElementException
 PATH = "/Users/seb/Chromedriver/chromedriver"
 driver = webdriver.Chrome(PATH)
 
+def cool_grey_11_script():
+    LOG_IN = "https://www.capsuletoronto.com/account"
+    new_arrival_link = "https://www.capsuletoronto.com/collections/new-arrivals" #"https://www.capsuletoronto.com/collections/new-arrivals/footwear" #"https://www.capsuletoronto.com/products/air-jordan-11-low-ie-919712-023-black"#"https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
+    keywords = "air-jordan-11-retro-ct8012-005"
+    size = "12"
+    EMAIL = "sebyzy@gmail.com"
+    PASSWORD = 
+    driver = webdriver.Chrome(PATH)
+    driver.get(LOG_IN)
+    driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
+    driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
+    driver.find_element_by_xpath("//input[@type='submit']").click()
+    time.sleep(60) #solving capcha
+    driver.refresh()
+    driver.maximize_window()
+    driver.get(new_arrival_link)
+    boo = True
+    while boo:
+        try:
+            driver.find_element_by_css_selector("a[href*='"+str(keywords)+"']").click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-' +str(size)+'"]'))).click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
+            boo = False
+        except:
+            driver.refresh()
+    time.sleep(180)
 
+
+def deadstock_script():
+    pull_calendar(deadstock.UPCOMING_RELEASES)
+    dunk = "Nike Dunk Low Retro Premium Vast Grey / Summit White - Pearl White"
+    early_link = deadstock.deadstock_generate_early_link(dunk,deadstock.EARLY_LINK)
+    check_out_link= "https://www.deadstock.ca/cart/" 
+    print(early_link)
+  
+
+
+
+
+
+
+
+
+# def capusule_toronto_fetch():
+#     LOG_IN = "https://www.capsuletoronto.com/account"
+#     new_arrival_link = "https://www.capsuletoronto.com/collections/new-arrivals" #"https://www.capsuletoronto.com/collections/new-arrivals/footwear" #"https://www.capsuletoronto.com/products/air-jordan-11-low-ie-919712-023-black"#"https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
+#     EMAIL = "sebyzy@gmail.com"
+#     PASSWORD = 
+#     driver = webdriver.Chrome(PATH)
+#     driver.get(LOG_IN)
+#     driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
+#     driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
+#     driver.find_element_by_xpath("//input[@type='submit']").click()
+#     time.sleep(60)
+#     driver.refresh()
+#     driver.maximize_window()
+#     driver.get(new_arrival_link)
+#     boo = True
+#     while boo:
+#         try:
+#             driver.find_element_by_css_selector("a[href*='air-jordan-11-retro-ct8012-005']").click()
+#             WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-12"]'))).click()
+#             WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
+#             WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
+#             WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
+#             boo = False
+#         except:
+#             driver.refresh()
+#     time.sleep(180)
+
+
+    #driver.find_elements_by_class_name("btn")
+    # j = 1
+    # for i in result:
+    #     print("-------------------------")
+    #     print(i.text + "-----------------------"+str(j))
+    #     j+=1
+    #driver.find_element_by_class_name("btn").send_keys(Keys.RETURN)
+   # driver.quit()   
+#recaptcha-checkbox-border
+#shopify-challenge__button btn
+
+#capusule_toronto_fetch()     
+
+
+
+
+
+
+
+
+
+
+        # while boo:
+    #     try:       
+    #         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
+    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
+    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
+    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
+    #         #driver.find_element_by_name("checkout").click()
+    #         boo = False
+    #     except:
+    #         driver.refresh()        
+    #[link.get_attribute('href') for link in driver.find_elements_by_xpath('')] 
+    #WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, keywords))).click()
+    #result = driver.find_elements_by_class_name("product-card")
+    #elems = driver.find_elements_by_xpath("//a[@href]")
+    # elems = driver.find_elements_by_xpath("//a[contains(@href, 'er-low-77-jumbo-dq1')]")
+    # elems.click()
+    # for elem in elems:
+    #     print("---------------------------")
+    #     #print(elem.get_attribute("href"))
+    #     print(elem)
+    
+
+
+
+    
+     
+    # driver.get(LOG_IN)
+    # driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
+    # driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
+    # driver.find_element_by_class_name("btn").click()
+    # driver.refresh()
+    # driver.get(LINK)
+    # driver.maximize_window()
+    # boo = True
+    # while boo:
+    #     try:       
+    #         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
+    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
+    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
+    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
+    #         #driver.find_element_by_name("checkout").click()
+    #         boo = False
+    #     except:
+    #         driver.refresh()
+
+
+#set up link
 def bot_configure(calendar, retailer):
     shoes = int(input("select shoes:\n"))
     link_to_run =""
@@ -60,20 +204,18 @@ def pull_calendar(link):
 
 
 
+
+
 # #Generate early link for snkers
 # def Generate_Early_Link(s, site):
 #     link = ""
 #     for char in s: 
-#         if(char == " "):
+#         if(char == " " or char == "-"):
 #             link += "-"
 #         elif(char.isalpha() or char. isnumeric()):
 #             link += char.lower() 
 #     return site+link      
      
-
-
-
-
 
 
 
@@ -154,28 +296,7 @@ def pull_calendar(link):
 
 
     
-# #Capsule auto checkout
-# driver = webdriver.Chrome(PATH)
-# #driver.get(LOG_IN)
-# LINK = "https://www.capsuletoronto.com/products/air-jordan-11-low-ie-919712-023-black"#"https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
-# #driver.get(LOG_IN)
-# #driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
-# #driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
-# #driver.find_element_by_class_name("btn").click()
-# #driver.refresh()
-# driver.get(LINK)
-# driver.maximize_window()
-# boo = True
-# while boo:
-#     try:       
-#         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
-#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
-#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
-#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
-#         #driver.find_element_by_name("checkout").click()
-#         boo = False
-#     except:
-#         driver.refresh()
+
     
 
 # #Generate early link for snkers

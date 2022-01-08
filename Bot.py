@@ -1,7 +1,5 @@
 from requests.models import CONTENT_CHUNK_SIZE, requote_uri
 from selenium.webdriver.remote.webelement import WebElement
-from capsule_toronto import run_capsule_toronto
-from deadstock import deadstock_generate_early_link
 import capsule_toronto
 import deadstock
 import nrml
@@ -12,7 +10,7 @@ import json
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.common.keys import Keys 
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -20,60 +18,59 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
 
-
 PATH = "/Users/seb/Chromedriver/chromedriver"
-driver = webdriver.Chrome(PATH)
-
-def cool_grey_11_script():
-    LOG_IN = "https://www.capsuletoronto.com/account"
-    new_arrival_link = "https://www.capsuletoronto.com/collections/new-arrivals" #"https://www.capsuletoronto.com/collections/new-arrivals/footwear" #"https://www.capsuletoronto.com/products/air-jordan-11-low-ie-919712-023-black"#"https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
-    keywords = "air-jordan-11-retro-ct8012-005"
-    size = "12"
-    EMAIL = "sebyzy@gmail.com"
-    PASSWORD = 
-    driver = webdriver.Chrome(PATH)
-    driver.get(LOG_IN)
-    driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
-    driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
-    driver.find_element_by_xpath("//input[@type='submit']").click()
-    time.sleep(60) #solving capcha
-    driver.refresh()
-    driver.maximize_window()
-    driver.get(new_arrival_link)
-    boo = True
-    while boo:
-        try:
-            driver.find_element_by_css_selector("a[href*='"+str(keywords)+"']").click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-' +str(size)+'"]'))).click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
-            boo = False
-        except:
-            driver.refresh()
-    time.sleep(180)
 
 
-def deadstock_script():
-    pull_calendar(deadstock.UPCOMING_RELEASES)
-    dunk = "Nike Dunk Low Retro Premium Vast Grey / Summit White - Pearl White"
-    early_link = deadstock.deadstock_generate_early_link(dunk,deadstock.EARLY_LINK)
-    check_out_link= "https://www.deadstock.ca/cart/" 
-    print(early_link)
-  
+def bot_configure(retailer):
+    if(retailer == "a"):
+        nrml.nrml_main(PATH)
+    elif(retailer == "b"):
+        deadstock.deadstock_main(PATH)
+    elif(retailer == "c"):
+        capsule_toronto.capsule_toronto_main(PATH)
 
 
 
 
 
+# def get_variants_id(early_link, size, lowerbound):
+#     shoes_name = 'Air Jordan 3 Retro CT8532-030 Black - '+ str(size)
+#     request = requests.get(early_link)
+#     bs = bs4.BeautifulSoup(request.text, "html.parser")
+#     scripts = bs.find_all("script")
+#     i = 100
+#     while i > 0:
+#         for s in scripts:
+#             try:
+#                 if("var meta" in s.text):
+#                     script = s.text
+#                     script = script.split('"public_title":"' + str(lowerbound)+'","sku":')[1] #strip everything before SIZE
+#                     script = script.split(',"price":24500,"name":"'+shoes_name+'","public_title":')[0] #strip everything after SIZE id
+#                     script = script.split('"},{"id":')[1] #strip nun-integer
+#                     return script
+#             except:
+#                 i -= 1
+#     return "failed, variant id does not exit"
 
+
+
+
+# #Generate early link for snkers
+# def Generate_Early_Link(s, site):
+#     link = ""
+#     for char in s:
+#         if(char == " " or char == "-"):
+#             link += "-"
+#         elif(char.isalpha() or char. isnumeric()):
+#             link += char.lower()
+#     return site+link
 
 
 # def capusule_toronto_fetch():
 #     LOG_IN = "https://www.capsuletoronto.com/account"
 #     new_arrival_link = "https://www.capsuletoronto.com/collections/new-arrivals" #"https://www.capsuletoronto.com/collections/new-arrivals/footwear" #"https://www.capsuletoronto.com/products/air-jordan-11-low-ie-919712-023-black"#"https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
-#     EMAIL = "sebyzy@gmail.com"
-#     PASSWORD = 
+#     EMAIL = ""
+#     PASSWORD = ""
 #     driver = webdriver.Chrome(PATH)
 #     driver.get(LOG_IN)
 #     driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
@@ -89,47 +86,37 @@ def deadstock_script():
 #             driver.find_element_by_css_selector("a[href*='air-jordan-11-retro-ct8012-005']").click()
 #             WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-12"]'))).click()
 #             WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
-#             WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
+#             WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement
 #             WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
 #             boo = False
 #         except:
 #             driver.refresh()
 #     time.sleep(180)
 
-
-    #driver.find_elements_by_class_name("btn")
+    # driver.find_elements_by_class_name("btn")
     # j = 1
     # for i in result:
     #     print("-------------------------")
     #     print(i.text + "-----------------------"+str(j))
     #     j+=1
-    #driver.find_element_by_class_name("btn").send_keys(Keys.RETURN)
-   # driver.quit()   
-#recaptcha-checkbox-border
-#shopify-challenge__button btn
+    # driver.find_element_by_class_name("btn").send_keys(Keys.RETURN)
+   # driver.quit()
+# recaptcha-checkbox-border
+# shopify-challenge__button btn
 
-#capusule_toronto_fetch()     
+# capusule_toronto_fetch()
 
-
-
-
-
-
-
-
-
-
-        # while boo:
-    #     try:       
+    # while boo:
+    #     try:
     #         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
     #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
-    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
+    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement
     #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
     #         #driver.find_element_by_name("checkout").click()
     #         boo = False
     #     except:
-    #         driver.refresh()        
-    #[link.get_attribute('href') for link in driver.find_elements_by_xpath('')] 
+    #         driver.refresh()
+    #[link.get_attribute('href') for link in driver.find_elements_by_xpath('')]
     #WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, keywords))).click()
     #result = driver.find_elements_by_class_name("product-card")
     #elems = driver.find_elements_by_xpath("//a[@href]")
@@ -139,12 +126,7 @@ def deadstock_script():
     #     print("---------------------------")
     #     #print(elem.get_attribute("href"))
     #     print(elem)
-    
 
-
-
-    
-     
     # driver.get(LOG_IN)
     # driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
     # driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
@@ -154,10 +136,10 @@ def deadstock_script():
     # driver.maximize_window()
     # boo = True
     # while boo:
-    #     try:       
+    #     try:
     #         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
     #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
-    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement   
+    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement
     #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
     #         #driver.find_element_by_name("checkout").click()
     #         boo = False
@@ -165,57 +147,28 @@ def deadstock_script():
     #         driver.refresh()
 
 
-#set up link
-def bot_configure(calendar, retailer):
-    shoes = int(input("select shoes:\n"))
-    link_to_run =""
-    if(shoes-1 >= len(calendar)  or shoes < 0):
-        print("invalid option\n")
-        return
-    if(retailer == "a"):
-        return 
-    elif(retailer == "b"):
-        return 
-    elif(retailer == "c"):
-        return capsule_toronto.capsule_bot_configure(calendar, shoes)
-    
-            
-    
-#Upcoming release calendar for sneaker site
-def pull_calendar(link):
-    driver.get(link)
-    calendar = []
-    if("deadstock" in link):
-        deadstock.deadstock_pull_calendar(driver, link, calendar)
-    elif("capsule" in link):
-        capsule_toronto.capsule_toronto_pull_calendar(driver, link, calendar)
-    elif("nrml" in link):
-        nrml.nrml_pull_calendar(driver, link, calendar)
-    print("---------------------------------------\nUpcoming Release\n---------------------------------------\n")
-    i = 1    
-    for shoes in calendar:
-        print(str(i)+") "+shoes)
-        print("---------------------------------------\n")
-        i += 1    
-    driver.quit()
-    return calendar
 
 
+# # Upcoming release calendar for sneaker site
+# def pull_calendar(link):
+#     driver.get(link)
+#     calendar = []
+#     if("deadstock" in link):
+#         deadstock.deadstock_pull_calendar(driver, link, calendar)
+#     elif("capsule" in link):
+#         capsule_toronto.capsule_toronto_pull_calendar(driver, link, calendar)
+#     elif("nrml" in link):
+#         nrml.nrml_pull_calendar(driver, link, calendar)
+#     print("---------------------------------------\nUpcoming Release\n---------------------------------------\n")
+#     i = 1
+#     for shoes in calendar:
+#         print(str(i)+") "+shoes)
+#         print("---------------------------------------\n")
+#         i += 1
+#     driver.quit()
+#     return calendar
 
 
-
-
-
-# #Generate early link for snkers
-# def Generate_Early_Link(s, site):
-#     link = ""
-#     for char in s: 
-#         if(char == " " or char == "-"):
-#             link += "-"
-#         elif(char.isalpha() or char. isnumeric()):
-#             link += char.lower() 
-#     return site+link      
-     
 
 
 
@@ -243,17 +196,16 @@ def pull_calendar(link):
 #             try:
 #                 if("var meta" in s.text):
 #                     script = s.text
-#                     script = script.split('"public_title":"' + str(lowerbound)+'","sku":')[1] #strip everything before SIZE         
+#                     script = script.split('"public_title":"' + str(lowerbound)+'","sku":')[1] #strip everything before SIZE
 #                     script = script.split(',"price":24500,"name":"'+shoes_name+'","public_title":')[0] #strip everything after SIZE id
-#                     script = script.split('"},{"id":')[1] #strip nun-integer 
+#                     script = script.split('"},{"id":')[1] #strip nun-integer
 #                     return script
 #             except:
 #                 i -= 1
-#     return "failed, variant id does not exit"    
+#     return "failed, variant id does not exit"
 
-# driver.get('https://www.capsuletoronto.com/cart/'+ get_variants_id(CAPSULE, 10, 9.5)+':1')  
+# driver.get('https://www.capsuletoronto.com/cart/'+ get_variants_id(CAPSULE, 10, 9.5)+':1')
 #print('https://www.deadstock.ca/cart/'+ get_variants_id(deadstock, 10, 9.5)+':1')
-
 
 
 # time.sleep(5)
@@ -264,8 +216,6 @@ def pull_calendar(link):
 
 # for value in jsonObj["product"]["variants"]:
 #     print ("ID: "+ str(value["id"]), "Size: " + str(value["public_title"]))
-
-
 
 
 # # Get shoe id
@@ -293,26 +243,20 @@ def pull_calendar(link):
 #     print ("ID: "+ str(value["id"]), "Size: " + str(value["public_title"]))
 
 
-
-
-    
-
-    
-
 # #Generate early link for snkers
 # def Generate_Early_Link(s, site):
 #     link = ""
-#     for char in s: 
+#     for char in s:
 #         if(char == " "):
 #             link += "-"
 #         elif(char.isalpha() or char. isnumeric()):
-#             link += char.lower() 
+#             link += char.lower()
 #     return site+link
 
 
 # confirm = input("NRML? Y/N")
 # if(confirm.lower() == "y"):
-#     CALENDAR_LINK = "https://nrml.ca/blogs/release-calendar" 
+#     CALENDAR_LINK = "https://nrml.ca/blogs/release-calendar"
 #     driver.get(CALENDAR_LINK)
 #     calendar = []
 #     release_blog = driver.find_elements_by_class_name("font-heading")
@@ -325,20 +269,18 @@ def pull_calendar(link):
 #             calendar.append(kicks)
 #     for shoes in calendar:
 #         print(Generate_Early_Link(shoes, NRML))
-#     driver.quit()    
+#     driver.quit()
 # elif(confirm.lower() == "n"):
 #     print("exit")
 #     exit
 # else:
 #     print("Error")
-#     exit     
-
-
+#     exit
 
 
 # confirm = input("NRML? Y/N")
 # if(confirm.lower() == "y"):
-#     CALENDAR_LINK = "https://nrml.ca/blogs/release-calendar" 
+#     CALENDAR_LINK = "https://nrml.ca/blogs/release-calendar"
 #     driver.get(CALENDAR_LINK)
 #     calendar = []
 #     release_blog = driver.find_elements_by_class_name("font-heading")
@@ -350,20 +292,17 @@ def pull_calendar(link):
 #             print(kicks)
 #             calendar.append(kicks)
 
-#     driver.quit()    
+#     driver.quit()
 # elif(confirm.lower() == "n"):
 #     print("exit")
 #     exit
 # else:
 #     print("Error")
-#     exit       
-
-
-
+#     exit
 
 
 # #release calendar
-# CALENDAR_LINK = "https://nrml.ca/blogs/release-calendar" 
+# CALENDAR_LINK = "https://nrml.ca/blogs/release-calendar"
 # driver.get(CALENDAR_LINK)
 # calendar = []
 # release_blog = driver.find_elements_by_class_name("font-heading")
@@ -374,9 +313,9 @@ def pull_calendar(link):
 #     elif(kicks != "" and kicks != "RELEASE CALENDAR"):
 #         print(kicks)
 #         calendar.append(kicks)
-# driver.quit()    
+# driver.quit()
 
-  
+
 # driver.get(LOG_IN)
 # email = driver.find_element_by_id("CustomerEmail")
 # email.send_keys(EMAIL)
@@ -394,7 +333,6 @@ def pull_calendar(link):
 #         boo = False
 #     except:
 #         driver.refresh()
-
 
 
 # # NRML login + auto checkout (Select size version)
@@ -421,7 +359,6 @@ def pull_calendar(link):
 #         driver.refresh()
 
 
-
 # # NRML login + auto checkout
 # driver = webdriver.Chrome(PATH)
 # EMAIL = "sebyzy@gmail.com"
@@ -445,7 +382,7 @@ def pull_calendar(link):
 
 
 #add_to_cart = driver.find_element_by_class_name("add-to-cart")
-#ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
+# ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
 
 
 # boo = True
@@ -457,20 +394,16 @@ def pull_calendar(link):
 #         #     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
 #         # finally:
 #         #     boo = False
-        
+
 #     except:
 #         driver.refresh()
-  
-
 
 
 #add_to_cart = driver.find_element_by_class_name("add-to-cart")
-#ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
+# ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
 #WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-         
-        
 
- 
+
 # #auto checkout NRML
 # LINK = "https://nrml.ca/"#"https://nrml.ca/products/air-jordan-1-retro-high-og-555088-063" #"https://nrml.ca/products/w-nike-dunk-low-se-dd7099-001"
 # driver.get(LINK)
@@ -483,20 +416,18 @@ def pull_calendar(link):
 #     except:
 #         driver.refresh()
 
-    
 
-
-#_11GJAaBiShTVGYuXppoYvE
+# _11GJAaBiShTVGYuXppoYvE
 
 ##
 # LiveStock
 
 # NRML
-#driver.get("https://nrml.ca/blogs/release-calendar")
-#driver.get("https://www.techwithtim.net")
+# driver.get("https://nrml.ca/blogs/release-calendar")
+# driver.get("https://www.techwithtim.net")
 # Size CA
-#driver.get("https://size.ca/products/jordan-1-retro-high-og-black-varsity-red-white")
-#print(driver.title) 
+# driver.get("https://size.ca/products/jordan-1-retro-high-og-black-varsity-red-white")
+# print(driver.title)
 #search = driver.find_element_by_name("s")
 #search = driver.find_element_by_partial_link_text('http://www.w3.org/2000/svg')
 #search = driver.find_element_by_class_name("search-img")
@@ -505,10 +436,10 @@ def pull_calendar(link):
 # ActionChains(driver).move_to_element(search_box_button).click(search_box_button).perform()
 # search = driver.find_element_by_id("search_box")
 # search.send_keys("jordan")
-# search.send_keys(Keys.RETURN) 
+# search.send_keys(Keys.RETURN)
 
 # time.sleep(5)
-  
+
 # driver.quit()
 # print("DONEEEEEEEEEEEEE")
 
@@ -526,9 +457,8 @@ def pull_calendar(link):
 # ActionChains(driver).move_to_element(select_size).click(select_size).perform()
 # ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
 # time.sleep(5)
-  
-# driver.quit()
 
+# driver.quit()
 
 
 # # Search A Shoe
@@ -540,5 +470,3 @@ def pull_calendar(link):
 # search.send_keys(Keys.RETURN)
 # time.sleep(5)
 # driver.quit()
-
-

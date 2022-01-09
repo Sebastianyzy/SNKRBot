@@ -21,7 +21,7 @@ CHECK_OUT_LINK = "https://size.ca/cart/"
 
 
 def size_ca_generate_early_link(early_link, title):
-    title = re.sub("'","", title)
+    title = re.sub("'", "", title)
     title = re.sub('[^0-9a-zA-Z]+', " ", title)
     array = title.split()
     ans = ""
@@ -60,8 +60,8 @@ def size_ca_main(PATH):
                     script = script.split(';\nfor (var attr in meta)')[0]
                     jsonStr = script
                     jsonObj = json.loads(jsonStr)
-                    i = 0
                     length = len(jsonObj['product']['variants'])
+                    i = 0
                     while(i < length):
                         if jsonObj['product']['variants'][i]['public_title'][-len(size):] == size:
                             driver.get(

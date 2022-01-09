@@ -20,10 +20,11 @@ RELEASE_TITLE = "address"
 
 def capsule_toronto_main(PATH):
     EMAIL = str(input("enter email:\n"))
-    PASSWORD = str(getpass.getpass("enter password:\n")) 
-    keywords = str(input("enter search keywords:\n"))
-    size = str(input("enter size:\n"))
+    PASSWORD = str(getpass.getpass("\nenter password:\n")) 
+    keywords = str(input("\nenter search keywords:\n"))
+    size = str(input("\nenter size:\n"))
     size = size.replace(".","-") if "." in size else size
+    print("\nrunning...")
     driver = webdriver.Chrome(PATH)
     driver.get(LOG_IN)
     driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)

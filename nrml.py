@@ -14,8 +14,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
-from SNKRBot.capsule_toronto import LOG_IN
-
 UPCOMING_RELEASES = "https://nrml.ca/blogs/release-calendar"
 EARLY_LINK = "https://nrml.ca/products/"
 RELEASE_TITLE = "font-heading"
@@ -24,15 +22,17 @@ LOG_IN = "https://nrml.ca/account"
 
 def nrml_main(PATH):
     EMAIL = str(input("enter email:\n"))
-    PASSWORD = str(getpass.getpass("enter password:\n"))
-    title = str(input("enter title:\n"))
-    size = str(input("enter size:\n"))
+    PASSWORD = str(getpass.getpass("\nenter password:\n"))
+    title = str(input("\nenter title:\n"))
+    size = str(input("\nenter size:\n"))
     link_to_run = nrml_generate_early_link(EARLY_LINK, title)
+    print("\nrunning...")
     driver = webdriver.Chrome(PATH)
     driver.get(LOG_IN)
     driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
     driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
     driver.find_element_by_class_name("btn").click()
+    time.sleep(60)
     driver.refresh()
     driver.get(link_to_run)
     boo = True
@@ -48,10 +48,9 @@ def nrml_main(PATH):
     time.sleep(600)        
 
 
-def nrml_generate_early_link(early_link, shoe_name):
-    shoe_name = re.sub('[^0-9a-zA-Z]+', " ", shoe_name)
-    array = shoe_name.split()
-    i = 0
+def nrml_generate_early_link(early_link, title):
+    title = re.sub('[^0-9a-zA-Z]+', " ", title)
+    array = title.split()
     ans = ""
     for c in array:
         ans += c.lower() + "-"

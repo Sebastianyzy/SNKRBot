@@ -1,8 +1,8 @@
-from requests.models import CONTENT_CHUNK_SIZE, requote_uri
 from selenium.webdriver.remote.webelement import WebElement
 import capsule_toronto
 import deadstock
 import nrml
+import size_ca
 import selenium
 import bs4
 import requests
@@ -20,17 +20,15 @@ from selenium.common.exceptions import NoSuchElementException
 
 PATH = "/Users/seb/Chromedriver/chromedriver"
 
-
-def bot_configure(retailer):
-    if(retailer == "a"):
+def bot_configure(RETAILER):
+    if(RETAILER == "a"):
         nrml.nrml_main(PATH)
-    elif(retailer == "b"):
+    elif(RETAILER == "b"):
         deadstock.deadstock_main(PATH)
-    elif(retailer == "c"):
+    elif(RETAILER == "c"):
         capsule_toronto.capsule_toronto_main(PATH)
-
-
-
+    elif(RETAILER == "d"):
+        size_ca.size_ca_main(PATH)    
 
 
 # def get_variants_id(early_link, size, lowerbound):
@@ -51,8 +49,6 @@ def bot_configure(retailer):
 #             except:
 #                 i -= 1
 #     return "failed, variant id does not exit"
-
-
 
 
 # #Generate early link for snkers
@@ -93,60 +89,58 @@ def bot_configure(retailer):
 #             driver.refresh()
 #     time.sleep(180)
 
-    # driver.find_elements_by_class_name("btn")
-    # j = 1
-    # for i in result:
-    #     print("-------------------------")
-    #     print(i.text + "-----------------------"+str(j))
-    #     j+=1
-    # driver.find_element_by_class_name("btn").send_keys(Keys.RETURN)
-   # driver.quit()
+# driver.find_elements_by_class_name("btn")
+# j = 1
+# for i in result:
+#     print("-------------------------")
+#     print(i.text + "-----------------------"+str(j))
+#     j+=1
+# driver.find_element_by_class_name("btn").send_keys(Keys.RETURN)
+# driver.quit()
 # recaptcha-checkbox-border
 # shopify-challenge__button btn
 
 # capusule_toronto_fetch()
 
-    # while boo:
-    #     try:
-    #         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
-    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
-    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement
-    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
-    #         #driver.find_element_by_name("checkout").click()
-    #         boo = False
-    #     except:
-    #         driver.refresh()
-    #[link.get_attribute('href') for link in driver.find_elements_by_xpath('')]
-    #WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, keywords))).click()
-    #result = driver.find_elements_by_class_name("product-card")
-    #elems = driver.find_elements_by_xpath("//a[@href]")
-    # elems = driver.find_elements_by_xpath("//a[contains(@href, 'er-low-77-jumbo-dq1')]")
-    # elems.click()
-    # for elem in elems:
-    #     print("---------------------------")
-    #     #print(elem.get_attribute("href"))
-    #     print(elem)
+# while boo:
+#     try:
+#         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
+#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
+#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement
+#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
+#         #driver.find_element_by_name("checkout").click()
+#         boo = False
+#     except:
+#         driver.refresh()
+#[link.get_attribute('href') for link in driver.find_elements_by_xpath('')]
+#WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, keywords))).click()
+#result = driver.find_elements_by_class_name("product-card")
+#elems = driver.find_elements_by_xpath("//a[@href]")
+# elems = driver.find_elements_by_xpath("//a[contains(@href, 'er-low-77-jumbo-dq1')]")
+# elems.click()
+# for elem in elems:
+#     print("---------------------------")
+#     #print(elem.get_attribute("href"))
+#     print(elem)
 
-    # driver.get(LOG_IN)
-    # driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
-    # driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
-    # driver.find_element_by_class_name("btn").click()
-    # driver.refresh()
-    # driver.get(LINK)
-    # driver.maximize_window()
-    # boo = True
-    # while boo:
-    #     try:
-    #         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
-    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
-    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement
-    #         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
-    #         #driver.find_element_by_name("checkout").click()
-    #         boo = False
-    #     except:
-    #         driver.refresh()
-
-
+# driver.get(LOG_IN)
+# driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
+# driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
+# driver.find_element_by_class_name("btn").click()
+# driver.refresh()
+# driver.get(LINK)
+# driver.maximize_window()
+# boo = True
+# while boo:
+#     try:
+#         WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//label[@for="swatch-0-9"]'))).click()
+#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "AddToCartText-product-template"))).click()
+#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, "agree"))).click()#Covid Agreement
+#         WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.NAME, "checkout"))).click()
+#         #driver.find_element_by_name("checkout").click()
+#         boo = False
+#     except:
+#         driver.refresh()
 
 
 # # Upcoming release calendar for sneaker site
@@ -167,9 +161,6 @@ def bot_configure(retailer):
 #         i += 1
 #     driver.quit()
 #     return calendar
-
-
-
 
 
 # driver.get("https://www.capsuletoronto.com/cart/39501394149411:1")

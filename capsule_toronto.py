@@ -20,10 +20,10 @@ RELEASE_TITLE = "address"
 
 def capsule_toronto_main(PATH):
     EMAIL = str(input("enter email:\n"))
-    PASSWORD = str(getpass.getpass("\nenter password:\n")) 
+    PASSWORD = str(getpass.getpass("\nenter password:\n"))
     keywords = str(input("\nenter search keywords:\n"))
     size = str(input("\nenter size:\n"))
-    size = size.replace(".","-") if "." in size else size
+    size = size.replace(".", "-") if "." in size else size
     print("\nrunning...")
     driver = webdriver.Chrome(PATH)
     driver.get(LOG_IN)
@@ -36,7 +36,7 @@ def capsule_toronto_main(PATH):
     driver.maximize_window()
     driver.get(NEW_ARRIVAL_LINK)
     boo = True
-    # monitor + auto check out starts 
+    # monitor + auto check out starts
     while boo:
         try:
             driver.find_element_by_css_selector(
@@ -47,14 +47,13 @@ def capsule_toronto_main(PATH):
                 (By.ID, "AddToCartText-product-template"))).click()
             # Covid Agreement
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-                (By.ID, "agree"))).click()  
+                (By.ID, "agree"))).click()
             WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.NAME, "checkout"))).click()    
+                EC.visibility_of_element_located((By.NAME, "checkout"))).click()
             boo = False
         except:
             driver.refresh()
     time.sleep(600)
-
 
 
 def capsule_toronto_pull_calendar(driver, link, calendar):
@@ -63,3 +62,4 @@ def capsule_toronto_pull_calendar(driver, link, calendar):
     for shoes in release_blog:
         calendar.append(shoes.text)
     return calendar
+

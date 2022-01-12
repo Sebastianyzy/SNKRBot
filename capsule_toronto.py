@@ -62,4 +62,3 @@ def capsule_toronto_pull_calendar(driver, link, calendar):
     for shoes in release_blog:
         calendar.append(shoes.text)
     return calendar
-

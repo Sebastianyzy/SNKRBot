@@ -1,7 +1,6 @@
 import selenium
 import time
 import getpass
-import bypass_reCapcha
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys

@@ -1,27 +1,29 @@
+from os import initgroups
+from posixpath import ismount
 import Bot
 import time
 
-site = ["a", "b", "c", "d"]
+site = ["a", "b", "c", "d", "e"]
 
 
 def main():
     print("\n\nrunning SNKRBot...\n")
-    time.sleep(3)
+    time.sleep(1)
     RETAILER = input(
-        "choose site to run:\n(a)NRML\n(b)Deadstock\n(c)Capsule Toronto\n(d)Size? CA\n\n or enter 'q' to exit\n\n").lower()
+        "choose site to run:\n(a)NRML\n(b)Deadstock\n(c)Capsule Toronto\n(d)Size? CA\n(e)CourtSide Sneakers\n\n or enter 'q' to exit\n\n").lower()
     if RETAILER in site:
         print("\ntransfering...\n")
-        time.sleep(3)
+        time.sleep(1)
         Bot.bot_configure(RETAILER)
     elif(RETAILER == "q"):
         print("\nshuting down...\n")
-        time.sleep(3)
+        time.sleep(0.5)
         exit()
     else:
         print("\ninvalid option!")
-        time.sleep(1)
+        time.sleep(0.5)
         print("back to main menu...\n")
-        time.sleep(3)
+        time.sleep(1)
         main()
 
 

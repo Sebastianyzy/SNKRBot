@@ -3,6 +3,7 @@ import capsule_toronto
 import deadstock
 import nrml
 import size_ca
+import crtsd_snkrs
 import selenium
 import bs4
 import requests
@@ -28,4 +29,7 @@ def bot_configure(RETAILER):
     elif(RETAILER == "c"):
         capsule_toronto.capsule_toronto_main(PATH)
     elif(RETAILER == "d"):
-        size_ca.size_ca_main(PATH)    
+        size_ca.size_ca_main(PATH)  
+    elif(RETAILER == "e"):
+        crtsd_snkrs.crtsd_snkrs_main(PATH)      
+

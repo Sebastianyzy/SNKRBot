@@ -32,7 +32,7 @@ def crtsd_snkrs__generate_early_link(early_link, title):
 
 def crtsd_snkrs_main(PATH):
     EMAIL = "sebyzy@gmail.com"#str(input("enter email:\n"))
-    PASSWORD = "hrLyWaXp5MKiH!S"#str(getpass.getpass("\nenter password:\n"))
+    PASSWORD = ""#str(getpass.getpass("\nenter password:\n"))
     title = "New Balance BB550HL1"#str(input("\nenter title:\n"))
     size = 10#str(input("\nenter size:\n"))
     link_to_run = crtsd_snkrs__generate_early_link(EARLY_LINK, title)
@@ -59,7 +59,7 @@ def crtsd_snkrs_main(PATH):
 
 def new_balance_script(PATH):
     EMAIL = "sebyzy@gmail.com"
-    PASSWORD = "hrLyWaXp5MKiH!S"
+    PASSWORD = ""
     title = "New Balance M1500BSG"#"New Balance BB550HL1"
     size = 10
     link_to_run = crtsd_snkrs__generate_early_link(EARLY_LINK, title)
@@ -83,4 +83,4 @@ def new_balance_script(PATH):
             driver.refresh()
     time.sleep(600)
 
-#new_balance_script("/Users/seb/Chromedriver/chromedriver")
+new_balance_script("/Users/seb/Chromedriver/chromedriver")

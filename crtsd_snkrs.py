@@ -30,11 +30,9 @@ def crtsd_snkrs__generate_early_link(early_link, title):
         ans += c.lower() + "-"
     return early_link+ans[:-1]
 
-def crtsd_snkrs_main(PATH):
-    EMAIL = "sebyzy@gmail.com"#str(input("enter email:\n"))
-    PASSWORD = ""#str(getpass.getpass("\nenter password:\n"))
-    title = "New Balance BB550HL1"#str(input("\nenter title:\n"))
-    size = 10#str(input("\nenter size:\n"))
+def crtsd_snkrs_main(PATH,EMAIL,PASSWORD):
+    title = str(input("\nenter title:\n"))
+    size = str(input("\nenter size:\n"))
     link_to_run = crtsd_snkrs__generate_early_link(EARLY_LINK, title)
     print("\nrunning...")
     driver = webdriver.Chrome(PATH)
@@ -55,32 +53,3 @@ def crtsd_snkrs_main(PATH):
         except:
             driver.refresh()
     time.sleep(600)
-
-
-def new_balance_script(PATH):
-    EMAIL = "sebyzy@gmail.com"
-    PASSWORD = ""
-    title = "New Balance M1500BSG"#"New Balance BB550HL1"
-    size = 10
-    link_to_run = crtsd_snkrs__generate_early_link(EARLY_LINK, title)
-    print("\nrunning...")
-    driver = webdriver.Chrome(PATH)
-    driver.get(LOG_IN)
-    driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
-    driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
-    driver.find_element_by_xpath("//button[normalize-space()='Sign In']").click()
-    time.sleep(120)
-    driver.refresh()
-    driver.get(link_to_run)
-    boo = True
-    while boo:
-        try:
-            driver.find_element_by_xpath("//label[normalize-space()='"+str(size)+"']").click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Add to cart']"))).click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[@type='submit']"))).click()
-            boo = False
-        except:
-            driver.refresh()
-    time.sleep(600)
-
-new_balance_script("/Users/seb/Chromedriver/chromedriver")

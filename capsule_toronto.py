@@ -10,16 +10,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
-UPCOMING_RELEASES = "https://www.capsuletoronto.com/pages/launches"
 EARLY_LINK = "https://www.capsuletoronto.com/products/"
 LOG_IN = "https://www.capsuletoronto.com/account"
 NEW_ARRIVAL_LINK = "https://www.capsuletoronto.com/collections/new-arrivals"
-RELEASE_TITLE = "address"
 
-
-def capsule_toronto_main(PATH):
-    EMAIL = str(input("enter email:\n"))
-    PASSWORD = str(getpass.getpass("\nenter password:\n"))
+def capsule_toronto_main(PATH,EMAIL,PASSWORD):
     keywords = str(input("\nenter search keywords:\n"))
     size = str(input("\nenter size:\n"))
     size = size.replace(".", "-") if "." in size else size
@@ -53,11 +48,3 @@ def capsule_toronto_main(PATH):
         except:
             driver.refresh()
     time.sleep(600)
-
-
-def capsule_toronto_pull_calendar(driver, link, calendar):
-    driver.get(link)
-    release_blog = driver.find_elements_by_class_name(RELEASE_TITLE)
-    for shoes in release_blog:
-        calendar.append(shoes.text)
-    return calendar

@@ -30,9 +30,7 @@ def size_ca_generate_early_link(early_link, title):
     return early_link+ans[:-1]
 
 
-def size_ca_main(PATH):
-    EMAIL = str(input("enter email:\n"))
-    PASSWORD = str(getpass.getpass("\nenter password:\n"))
+def size_ca_main(PATH,EMAIL,PASSWORD):
     title = str(input("\nenter title:\n"))
     size = str(input("\nenter size:\n"))
     link_to_run = size_ca_generate_early_link(EARLY_LINK, title)
@@ -49,38 +47,22 @@ def size_ca_main(PATH):
     driver.get(link_to_run)
     boo = True
     while boo:
-        request = requests.get(link_to_run)
-        bs = bs4.BeautifulSoup(request.text, "html.parser")
-        scripts = bs.find_all("script")
-        for s in scripts:
-            try:
-                if("var meta" in s.text):
-                    script = s.text
-                    script = script.split('var meta = ')[1]
-                    script = script.split(';\nfor (var attr in meta)')[0]
-                    jsonStr = script
-                    jsonObj = json.loads(jsonStr)
-                    length = len(jsonObj['product']['variants'])
-                    i = 0
-                    while(i < length):
-                        if jsonObj['product']['variants'][i]['public_title'][-len(size):] == size:
-                            driver.get(
-                                CHECK_OUT_LINK + str(jsonObj['product']['variants'][i]['id'])+":1")
-                        i += 1
-                    boo = False
-            except:
-                driver.refresh()
+        try:
+            driver.find_element_by_xpath(
+                "//label[normalize-space()='"+str(size)+"']").click()
+            driver.get(CHECK_OUT_LINK +
+                       str(driver.current_url.split("variant=", 1)[1]+":1"))
+            boo = False
+        except:
+            driver.refresh()
     time.sleep(600)
-    # monitor + auto check out starts
+
+    # # auto checkout method
     # while boo:
-    #     try:
-    #         driver.find_element_by_xpath('//label[@for="swatch-1-' + str(size) + '"]').click()
-    #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-    #             (By.ID, "AddToCart"))).click()
-    #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-    #             (By.CLASS_NAME, "checkout"))).click()
-    #         # WebDriverWait(driver, 10).until(
-    #         #     EC.visibility_of_element_located((By.NAME, "checkout"))).click()
-    #         boo = False
-    #     except:
-    #         driver.refresh()
+    # try:
+    #     driver.find_element_by_xpath("//label[normalize-space()='"+str(size)+"']").click()
+    #     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "AddToCartText"))).click()
+    #     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[normalize-space()='Checkout securely']"))).click()
+    #     boo = False
+    # except:
+    #     driver.refresh()

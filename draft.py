@@ -1,7 +1,17 @@
-import selenium
-import time
+import imp
+from selenium.webdriver.remote.webelement import WebElement
+import capsule_toronto
+import deadstock
+import nrml
+import size_ca
+import crtsd_snkrs
+import nomad
 import getpass
-import bypass_reCapcha
+import selenium
+import bs4
+import requests
+import json
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
@@ -10,8 +20,169 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium_stealth import stealth
+
+# PATH = "/Users/seb/Chromedriver/chromedriver"
+# PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+
+# options = webdriver.ChromeOptions()
+# options.add_argument(
+#     "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
+# options.add_experimental_option("excludeSwitches", ["enable-automation"])
+# options.add_experimental_option('useAutomationExtension', False)
+# options.add_argument('--disable-blink-features=AutomationControlled')
+# options.add_argument('--user-data-dir=/Users/seb/Library/Application Support/Google/Chrome/Default')
+# options.add_argument('--profile-directory=/Users/seb/Library/Application Support/Google/Chrome/Default')
+# driver = webdriver.Chrome(options=options, executable_path=PATH)
+# stealth(driver,
+#         languages=["en-US", "en"],
+#         vendor="Google Inc.",
+#         platform="Win32",
+#         webgl_vendor="Intel Inc.",
+#         renderer="Intel Iris OpenGL Engine",
+#         fix_hairline=True,
+#         )
+# driver.get("https://stackoverflow.com/questions/69441729/python-selenium-use-chromedriver-again")
 
 
+# time.sleep(60)
+
+# options.add_argument("start-maximized")
+
+# options.add_argument("--headless")
+
+# options.add_experimental_option("excludeSwitches", ["enable-automation"])
+# options.add_experimental_option('useAutomationExtension', False)
+# options.add_argument('--user-data-dir=/Users/seb/Library/Application Support/Google/Chrome/Default')
+# options.add_argument('--profile-directory=/Users/seb/Library/Application Support/Google/Chrome/Default')
+# driver = webdriver.Chrome(options=options, executable_path=PATH)
+
+# stealth(driver,
+#         languages=["en-US", "en"],
+#         vendor="Google Inc.",
+#         platform="Win32",
+#         webgl_vendor="Intel Inc.",
+#         renderer="Intel Iris OpenGL Engine",
+#         fix_hairline=True,
+#         )
+
+# url = "https://bot.sannysoft.com/"
+# driver.get(url)
+# time.sleep(5)
+# # #driver.quit()
+
+# options = webdriver.ChromeOptions()
+# options.add_argument('--user-data-dir=/Users/seb/Library/Application Support/Google/Chrome/Default')
+# options.add_argument('--profile-directory=/Users/seb/Library/Application Support/Google/Chrome/Default')
+
+# driver = webdriver.Chrome(executable_path=PATH, options=options)
+
+
+# #link_to_run = "https://www.deadstock.ca/products/jordan-13-retro-black-court-purple-white?variant=39358977998933"
+
+# driver.get("https://www.deadstock.ca/account")
+
+
+# # Import required packages, modules etc.. Selenium is a must!
+
+# def login(username, password):       # Logs in the user
+#     driver.get("https://stackoverflow.com/users/login")
+#     WebDriverWait(driver, 60).until(EC.presence_of_element_located(
+#         (By.XPATH, '//*[@id="openid-buttons"]/button[1]'))).click()
+
+#     try:
+#         WebDriverWait(driver, 60).until(EC.presence_of_element_located(
+#             (By.ID, "Email"))).send_keys(username)      # Enters username
+#     except TimeoutException:
+#         del username
+#         driver.quit()
+#     WebDriverWait(driver, 60).until(EC.element_to_be_clickable(
+#         (By.XPATH, "/html/body/div/div[2]/div[2]/div[1]/form/div/div/input"))).click()      # Clicks NEXT
+#     time.sleep(0.5)
+
+#     try:
+#         try:
+#             WebDriverWait(driver, 60).until(EC.presence_of_element_located(
+#                 (By.ID, "password"))).send_keys(password)       # Enters decoded Password
+#         except TimeoutException:
+#             driver.quit()
+#         WebDriverWait(driver, 5).until(EC.element_to_be_clickable(
+#             (By.ID, "submit"))).click()     # Clicks on Sign-in
+#     except TimeoutException or NoSuchElementException:
+#         print('\nUsername/Password seems to be incorrect, please re-check\nand Re-Run the program.')
+#         del username, password
+#         driver.quit()
+
+#     try:
+#         WebDriverWait(driver, 60).until(lambda webpage: "https://stackoverflow.com/" in webpage.current_url)
+#         print('\nLogin Successful!\n')
+#     except TimeoutException:
+#         print('\nUsername/Password seems to be incorrect, please re-check\nand Re-Run the program.')
+#         del username, password
+#         driver.quit()
+
+# USERNAME = input("User Name : ")
+# PASSWORD = str(getpass.getpass("\nenter password:\n"))      # A custom function for secured password input, explained at end.
+
+# # Expected and required arguments added here.
+# options = webdriver.ChromeOptions()
+# options.add_argument("start-maximized")
+# options.add_experimental_option("excludeSwitches", ["enable-automation"])
+# options.add_experimental_option('useAutomationExtension', False)
+# options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
+# # Assign drivers here.
+
+# stealth(driver,
+#         user_agent='DN',
+#         languages=["en-US", "en"],
+#         vendor="Google Inc.",
+#         platform="Win32",
+#         webgl_vendor="Intel Inc.",
+#         renderer="Intel Iris OpenGL Engine",
+#         fix_hairline=True,
+#         )       # Before Login, using stealth
+
+# login(USERNAME, PASSWORD)       # Call login function/method
+
+# stealth(driver,
+#         user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36',
+#         languages=["en-US", "en"],
+#         vendor="Google Inc.",
+#         platform="Win32",
+#         webgl_vendor="Intel Inc.",
+#         renderer="Intel Iris OpenGL Engine",
+#         fix_hairline=True,
+#         )       # After logging in, revert back user agent to normal.
+
+# # Redirecting to Google Meet Web-Page
+# time.sleep(2)
+# driver.execute_script("window.open('https://the website that you wanto to go.')")
+# driver.switch_to.window(driver.window_handles[1])       # Redirecting to required from stackoverflow after logging in
+# driver.switch_to.window(driver.window_handles[0])       # This switches to stackoverflow website
+# driver.close()                                          # This closes the stackoverflow website
+# driver.switch_to.window(driver.window_handles[0])       # Focuses on present website
+
+
+# driver.find_element_by_id("CustomerEmail").send_keys(EMAIL)
+# driver.find_element_by_id("CustomerPassword").send_keys(PASSWORD)
+# driver.find_element_by_xpath("//input[@type='submit']").click()
+# # idle 60s to solve capcha
+# time.sleep(60)
+# driver.refresh()
+# driver.maximize_window()
+# driver.get(link_to_run)
+# boo = True
+# # monitor + auto check out starts
+# while boo:
+#     try:
+#         driver.get("https://www.deadstock.ca/cart/" +"39358978130005"+":1")
+#         boo = False
+#     except:
+#         driver.refresh()
+# time.sleep(600)
 
 
 # def get_variants_id(early_link, size, lowerbound):
@@ -95,10 +266,10 @@ from selenium.common.exceptions import NoSuchElementException
 #         boo = False
 #     except:
 #         driver.refresh()
-#[link.get_attribute('href') for link in driver.find_elements_by_xpath('')]
-#WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, keywords))).click()
-#result = driver.find_elements_by_class_name("product-card")
-#elems = driver.find_elements_by_xpath("//a[@href]")
+# [link.get_attribute('href') for link in driver.find_elements_by_xpath('')]
+# WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, keywords))).click()
+# result = driver.find_elements_by_class_name("product-card")
+# elems = driver.find_elements_by_xpath("//a[@href]")
 # elems = driver.find_elements_by_xpath("//a[contains(@href, 'er-low-77-jumbo-dq1')]")
 # elems.click()
 # for elem in elems:
@@ -179,7 +350,7 @@ from selenium.common.exceptions import NoSuchElementException
 #     return "failed, variant id does not exit"
 
 # driver.get('https://www.capsuletoronto.com/cart/'+ get_variants_id(CAPSULE, 10, 9.5)+':1')
-#print('https://www.deadstock.ca/cart/'+ get_variants_id(deadstock, 10, 9.5)+':1')
+# print('https://www.deadstock.ca/cart/'+ get_variants_id(deadstock, 10, 9.5)+':1')
 
 
 # time.sleep(5)
@@ -355,7 +526,7 @@ from selenium.common.exceptions import NoSuchElementException
 #         driver.refresh()
 
 
-#add_to_cart = driver.find_element_by_class_name("add-to-cart")
+# add_to_cart = driver.find_element_by_class_name("add-to-cart")
 # ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
 
 
@@ -373,9 +544,9 @@ from selenium.common.exceptions import NoSuchElementException
 #         driver.refresh()
 
 
-#add_to_cart = driver.find_element_by_class_name("add-to-cart")
+# add_to_cart = driver.find_element_by_class_name("add-to-cart")
 # ActionChains(driver).move_to_element(add_to_cart).click(add_to_cart).perform()
-#WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
+# WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
 
 
 # #auto checkout NRML
@@ -402,9 +573,9 @@ from selenium.common.exceptions import NoSuchElementException
 # Size CA
 # driver.get("https://size.ca/products/jordan-1-retro-high-og-black-varsity-red-white")
 # print(driver.title)
-#search = driver.find_element_by_name("s")
-#search = driver.find_element_by_partial_link_text('http://www.w3.org/2000/svg')
-#search = driver.find_element_by_class_name("search-img")
+# search = driver.find_element_by_name("s")
+# search = driver.find_element_by_partial_link_text('http://www.w3.org/2000/svg')
+# search = driver.find_element_by_class_name("search-img")
 # search_box_button= driver.find_element_by_class_name("search-img")
 # #search = driver.find_element_by_id("search_box")
 # ActionChains(driver).move_to_element(search_box_button).click(search_box_button).perform()
@@ -446,22 +617,6 @@ from selenium.common.exceptions import NoSuchElementException
 # driver.quit()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import selenium
 # import time
 # import getpass
 # from selenium import webdriver
@@ -508,11 +663,11 @@ import selenium
 #         driver.refresh()
 #         time.sleep(10)
 #         driver.find_element_by_id("login-form-email").send_keys("sebyzy@gmail.com")
-#         driver.find_element_by_id("login-form-password").send_keys("zqSdxf_5.i@_HKS") 
+#         driver.find_element_by_id("login-form-password").send_keys("zqSdxf_5.i@_HKS")
 #         ActionChains(driver).move_to_element(WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//button[text()="Login"]')))).click().perform()
 #         time.sleep(10)
 #         i+= 1
-        
+
 #     driver.get("https://www.newbalance.ca/en_ca/pd/327/MS327V1-36626.html#dwvar_MS327V1-36626_size=10.5&dwvar_MS327V1-36626_style=MS327WR1&dwvar_MS327V1-36626_width=D&pid=MS327V1-36626&quantity=1")
 #     driver.maximize_window()
 #     driver.refresh()
@@ -529,13 +684,10 @@ import selenium
 #     driver.execute_script("element.click()")
 
 
-
-    
-
 #     #ActionChains(driver).move_to_element(WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, '//span[text()="Add to Cart"]')))).click().perform()
 #     #ActionChains(driver).move_to_element(WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, '//span[text()="Add to Cart"]')))).click().perform()
 #     #driver.find_element_by_xpath('//span[text()="Add to Cart"]').click()
-   
+
 #     # element = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, '//button[contains(@class,"add-to-cart")]')))
 #     # action = ActionChains(driver)
 #     # action.click_and_hold(element)
@@ -548,11 +700,11 @@ import selenium
 #     # WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "10.5"))).click()
 #     # WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
 #     #     (By.XPATH, '//span[contains(@class,"button-label")]'))).click()
-#     # add_to_cart = driver.find_element_by_css_selector('//button[contains(@class,"add-to-cart")]')  
-    
+#     # add_to_cart = driver.find_element_by_css_selector('//button[contains(@class,"add-to-cart")]')
+
 #     # WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-#     #     (By.CLASS_NAME, "sales pr-2"))).click()   
-#     #driver.findElement(By.xpath("//span[contains(@class,'middle') and contains(text(), 'Next')]"))     
+#     #     (By.CLASS_NAME, "sales pr-2"))).click()
+#     #driver.findElement(By.xpath("//span[contains(@class,'middle') and contains(text(), 'Next')]"))
 #     # WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
 #     #     (By.CLASS_NAME, "paypal-button"))).click()
 #     time.sleep(5)

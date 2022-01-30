@@ -24,8 +24,24 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium_stealth import stealth
 
-# PATH = "/Users/seb/Chromedriver/chromedriver"
+PATH = "/Users/seb/Chromedriver/chromedriver"
 # PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+driver = webdriver.Chrome(PATH)
+driver.get('https://www.nike.com/ca/launch/t/air-jordan-6-low-cny')
+
+def process_browser_log_entry(entry):
+    response = json.loads(entry['message'])['message']
+    return response
+
+browser_log = driver.get_log('browser') 
+print(browser_log)
+# events = [process_browser_log_entry(entry) for entry in browser_log]
+# events = [event for event in events if 'Network.response' in event['method']]
+
+driver.quit
+
+
+
 
 # options = webdriver.ChromeOptions()
 # options.add_argument(
@@ -78,9 +94,6 @@ from selenium_stealth import stealth
 # options.add_argument('--profile-directory=/Users/seb/Library/Application Support/Google/Chrome/Default')
 
 # driver = webdriver.Chrome(executable_path=PATH, options=options)
-
-
-# #link_to_run = "https://www.deadstock.ca/products/jordan-13-retro-black-court-purple-white?variant=39358977998933"
 
 # driver.get("https://www.deadstock.ca/account")
 

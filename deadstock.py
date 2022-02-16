@@ -59,6 +59,9 @@ def deadstock_main(PATH, PROFILE_PATH):
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
 
+
+
+
 # def deadstock_generate_keywords(title):
 #     title = re.sub('[^0-9a-zA-Z]+', " ", title)
 #     array = title.split()

@@ -17,6 +17,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 EARLY_LINK = "https://nrml.ca/products/"
 LOG_IN = "https://nrml.ca/account"
+SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 
 
 def nrml_generate_early_link(early_link, title):
@@ -56,6 +57,42 @@ def nrml_main(PATH,EMAIL,PASSWORD):
     time.sleep(600)
 
 
+
+def jordan_script(PATH, PROFILE_PATH):
+    title = "AIR JORDAN 1 RETRO HIGH OG (GS) 575441 404"
+    size = "6Y"
+    link_to_run = nrml_generate_early_link(EARLY_LINK, title)
+    print("\nrunning...")
+    options = webdriver.ChromeOptions()
+    options.add_argument('--user-data-dir='+PROFILE_PATH)
+    options.add_argument('--profile-directory='+PROFILE_PATH)
+    driver = webdriver.Chrome(options=options, executable_path=PATH)
+    driver.get(SHOP_PAY_LOG_IN)
+    # idle 60s
+    time.sleep(60)
+    driver.refresh()
+    driver.maximize_window()
+    driver.get(link_to_run)
+    boo = True
+    # monitor + auto check out starts
+    while boo:
+        try:
+            start1 = time.time()
+            driver.find_element_by_id("Option1-"+str(size)).click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
+            boo = False
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            start2 = time.time()
+            WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
+                (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+        except:
+            driver.refresh()
+    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+    time.sleep(600)
+
+
+jordan_script("/Users/seb/Chromedriver/chromedriver","/Users/seb/Library/Application Support/Google/Chrome/Default")
 
 
 

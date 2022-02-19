@@ -24,21 +24,42 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium_stealth import stealth
 
+print("sdafasd")
 PATH = "/Users/seb/Chromedriver/chromedriver"
 # PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
 driver = webdriver.Chrome(PATH)
-driver.get('https://www.nike.com/ca/launch/t/air-jordan-6-low-cny')
+driver.get("https://nrml.ca/search?q=")
 
-def process_browser_log_entry(entry):
-    response = json.loads(entry['message'])['message']
-    return response
 
-browser_log = driver.get_log('browser') 
-print(browser_log)
-# events = [process_browser_log_entry(entry) for entry in browser_log]
-# events = [event for event in events if 'Network.response' in event['method']]
+driver.find_element_by_id("search").send_keys("CW2288 111")
+driver.find_element_by_xpath("//button[@type='submit']")
 
-driver.quit
+#move = WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.ID, "AddToCart")))
+
+# move = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//h3[@title="AIR FORCE 1 REACT - CT1020 101"]')))
+# ActionChains(driver).move_to_element(move)
+
+
+# WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, "//button[@class='btn']"))).click()
+
+#ActionChains(driver).move_to_element(zoom_out_button).click("xpath_css_hidden_element").perform()
+
+# move = WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.TAG_NAME, "h3")))
+# ActionChains(driver).move_to_element(move).perform
+# click_size = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='11.5']")))
+# ActionChains(driver).move_to_element(click_size).click(click_size).perform()
+#WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='View']"))).click()
+
+# def process_browser_log_entry(entry):
+#     response = json.loads(entry['message'])['message']
+#     return response
+
+# browser_log = driver.get_log('browser') 
+# print(browser_log)
+# # events = [process_browser_log_entry(entry) for entry in browser_log]
+# # events = [event for event in events if 'Network.response' in event['method']]
+
+# driver.quit
 
 
 

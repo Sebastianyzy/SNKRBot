@@ -16,18 +16,19 @@ from selenium.common.exceptions import NoSuchElementException
 LOG_IN = "https://nomadshop.net/account/"
 NEW_ARRIVAL_LINK = "https://nomadshop.net/collections/new-arrivals"
 CHECK_OUT_LINK = "https://nomadshop.net/cart/"
+SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 
 
-def nomad_main(PATH,EMAIL,PASSWORD):
+def nomad_main(PATH,PROFILE_PATH):
     keyword = str(input("\nenter search keywords:\n")).lower()
     size = str(input("\nenter size:\n"))
     print("\nrunning...")
-    driver = webdriver.Chrome(PATH)
-    driver.get(LOG_IN)
-    driver.find_element_by_id("customer_email").send_keys(EMAIL)
-    driver.find_element_by_id("customer_password").send_keys(PASSWORD)
-    driver.find_element_by_xpath("//input[@type='submit']").click()
-    # idle 60s to solve capcha
+    options = webdriver.ChromeOptions()
+    options.add_argument('--user-data-dir='+PROFILE_PATH)
+    options.add_argument('--profile-directory='+PROFILE_PATH)
+    driver = webdriver.Chrome(options=options, executable_path=PATH)
+    driver.get(SHOP_PAY_LOG_IN)
+    # idle 60s
     time.sleep(60)
     driver.refresh()
     driver.maximize_window()
@@ -36,6 +37,7 @@ def nomad_main(PATH,EMAIL,PASSWORD):
     # monitor + auto check out starts
     while boo:
         try:
+            start1 = time.time()
             driver.find_element_by_css_selector(
                 "a[href*='"+str(keyword)+"']").click()
             WebDriverWait(driver, 10).until(EC.invisibility_of_element_located(
@@ -43,6 +45,53 @@ def nomad_main(PATH,EMAIL,PASSWORD):
             driver.get(CHECK_OUT_LINK +
                        str(driver.current_url.split("variant=", 1)[1]+":1"))
             boo = False
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            start2 = time.time()
+            WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
+                (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
         except:
             driver.refresh()
-    time.sleep(600)
+    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+    time.sleep(600)  
+
+
+def dunk(PATH,PROFILE_PATH):
+    keyword = "midas"
+    size = str(10)
+    print("\nrunning...")
+    options = webdriver.ChromeOptions()
+    options.add_argument('--user-data-dir='+PROFILE_PATH)
+    options.add_argument('--profile-directory='+PROFILE_PATH)
+    driver = webdriver.Chrome(options=options, executable_path=PATH)
+    driver.get(SHOP_PAY_LOG_IN)
+    # idle 60s
+    time.sleep(60)
+    driver.refresh()
+    driver.maximize_window()
+    driver.get(NEW_ARRIVAL_LINK)
+    boo = True
+    # monitor + auto check out starts
+    while boo:
+        try:
+            start1 = time.time()
+            driver.find_element_by_css_selector(
+                "a[href*='"+str(keyword)+"']").click()
+            WebDriverWait(driver, 10).until(EC.invisibility_of_element_located(
+                (By.XPATH, '//*[contains(@id,'+str(size)+')]'))).click()
+            driver.get(CHECK_OUT_LINK +
+                       str(driver.current_url.split("variant=", 1)[1]+":1"))
+            boo = False
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            start2 = time.time()
+            WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
+                (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+        except:
+            driver.refresh()
+    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+    time.sleep(600)  
+
+
+
+
+
+#dunk("/Users/seb/Chromedriver/chromedriver","/Users/seb/Library/Application Support/Google/Chrome/Default")  

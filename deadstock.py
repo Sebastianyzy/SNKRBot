@@ -22,6 +22,7 @@ SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 UPCOMING_RELEASES = "https://www.deadstock.ca/blogs/coming-soon"
 
 
+
 def deadstock_main(PATH, PROFILE_PATH):
     keywords = str(input("\nenter search keywords:\n"))
     size = str(input("\nenter size:\n"))
@@ -60,6 +61,50 @@ def deadstock_main(PATH, PROFILE_PATH):
     time.sleep(600)
 
 
+
+    
+
+def dunk_script(PATH, PROFILE_PATH):
+    keywords = "dunk-low-white"
+    size = str(10)
+    print("\nrunning...")
+    options = webdriver.ChromeOptions()
+    options.add_argument('--user-data-dir='+PROFILE_PATH)
+    options.add_argument('--profile-directory='+PROFILE_PATH)
+    driver = webdriver.Chrome(options=options, executable_path=PATH)
+    driver.get(SHOP_PAY_LOG_IN)
+    # idle 60s
+    time.sleep(9999)
+    driver.refresh()
+    driver.maximize_window()
+    driver.get(UPCOMING_RELEASES)
+    boo = True
+    # monitor + auto check out starts
+    while boo:
+        try:
+            start1 = time.time()
+            driver.find_element_by_css_selector(
+                "a[href*='"+str(keywords)+"']").click()
+            click_size = WebDriverWait(driver, 30).until(EC.visibility_of_element_located(
+                (By.ID, "ProductSelect-option-Size-"+str(size))))
+            ActionChains(driver).move_to_element(
+                click_size).click(click_size).perform()
+            driver.get(CHECK_OUT_LINK +
+                       str(driver.current_url.split("variant=", 1)[1]+":1"))
+            boo = False
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            start2 = time.time()
+            WebDriverWait(driver, 30).until(EC.visibility_of_element_located(
+                (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+        except:
+            driver.refresh()
+    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+    time.sleep(600)
+
+"https://www.deadstock.ca/products/nike-women-s-dunk-low-white-worn-blue-white"
+"https://www.deadstock.ca/products/nike-womens-dunk-low-white-venice?context=comingsoon"
+
+#dunk_script("/Users/seb/Chromedriver/chromedriver","/Users/seb/Library/Application Support/Google/Chrome/Default")
 
 
 # def deadstock_generate_keywords(title):

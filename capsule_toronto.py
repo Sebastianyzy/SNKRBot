@@ -45,8 +45,8 @@ def capsule_toronto_main(PATH,PROFILE_PATH):
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))    
             start2 = time.time()
             boo = False
-            ##PAY
-            #WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            #PAY
+            WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
         except:
             driver.refresh()
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))         

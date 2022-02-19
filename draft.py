@@ -1,3 +1,4 @@
+from argparse import Action
 import imp
 from selenium.webdriver.remote.webelement import WebElement
 import capsule_toronto
@@ -24,31 +25,60 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium_stealth import stealth
 
-print("sdafasd")
+
+# #######################################################################################################################
+# #BB BRANDED
+
+# def jordan3_script(PATH, PROFILE_PATH):
+#     keywords = "ct8532-126"
+#     size = "11"
+#     print("\nrunning...")
+#     options = webdriver.ChromeOptions()
+#     options.add_argument('--user-data-dir='+PROFILE_PATH)
+#     options.add_argument('--profile-directory='+PROFILE_PATH)
+#     driver = webdriver.Chrome(options=options, executable_path=PATH)
+#     driver.get("https://shop.app/pay/authentication/login")
+#     # idle 60s
+#     time.sleep(60)
+#     driver.refresh()
+#     driver.maximize_window()
+#     driver.get("https://www.bbbranded.com/collections/release-calendar")
+#     boo = True
+#     # monitor + auto check out starts
+#     while boo:
+#         try:
+#             start1 = time.time()
+#             driver.find_element_by_css_selector("a[href*='"+str(keywords)+"']").click()
+#             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//li[@data-text="'+str(size)+'"]'))).click()
+#             driver.get("https://www.bbbranded.com/cart/" +str(driver.current_url.split("variant=", 1)[1]+":1"))
+#             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))    
+#             start2 = time.time()
+#             boo = False
+#             #PAY
+#             WebDriverWait(driver, 120).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+#         except:
+#             driver.get("https://www.bbbranded.com/collections/release-calendar")
+#     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))         
+#     time.sleep(600)
+
+#actual link: https://www.bbbranded.com/collections/release-calendar/products/air-jordan-3-retro-ct8532-126
+    
+# jordan3_script(PATH,PROFILE_PATH)    
+
+# #######################################################################################################################
+
+
+print("draft\n----------------------------\n\n\n\n")
 PATH = "/Users/seb/Chromedriver/chromedriver"
-# PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
 driver = webdriver.Chrome(PATH)
-driver.get("https://nrml.ca/search?q=")
+driver.get("https://www.bbbranded.com/pages/search-results-page?q=DC4097-100")
+driver.find_element_by_css_selector("a[href*='"+str("dc4097-100")+"']").click()
+WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//li[@data-text="5C"]'))).click()
+driver.get("https://www.bbbranded.com/cart/" +str(driver.current_url.split("variant=", 1)[1]+":1"))
 
 
-driver.find_element_by_id("search").send_keys("CW2288 111")
-driver.find_element_by_xpath("//button[@type='submit']")
 
-#move = WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.ID, "AddToCart")))
-
-# move = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//h3[@title="AIR FORCE 1 REACT - CT1020 101"]')))
-# ActionChains(driver).move_to_element(move)
-
-
-# WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, "//button[@class='btn']"))).click()
-
-#ActionChains(driver).move_to_element(zoom_out_button).click("xpath_css_hidden_element").perform()
-
-# move = WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.TAG_NAME, "h3")))
-# ActionChains(driver).move_to_element(move).perform
-# click_size = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='11.5']")))
-# ActionChains(driver).move_to_element(click_size).click(click_size).perform()
-#WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='View']"))).click()
 
 # def process_browser_log_entry(entry):
 #     response = json.loads(entry['message'])['message']

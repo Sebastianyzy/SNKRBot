@@ -57,11 +57,14 @@ def nrml_main(PATH,EMAIL,PASSWORD):
     time.sleep(600)
 
 
+def nrml_link_to_run(keyword, driver):
+    driver.find_element_by_id("search").send_keys(keyword)
+    driver.find_element_by_xpath("//button[@type='submit']")
 
-def jordan_script(PATH, PROFILE_PATH):
-    title = "AIR JORDAN 1 RETRO HIGH OG (GS) 575441 404"
-    size = "6Y"
-    link_to_run = nrml_generate_early_link(EARLY_LINK, title)
+
+def dunk_script(PATH, PROFILE_PATH):
+    size = str(10)
+    link_to_run = "https://nrml.ca/pages/search-results?q=DD1391%20701"
     print("\nrunning...")
     options = webdriver.ChromeOptions()
     options.add_argument('--user-data-dir='+PROFILE_PATH)
@@ -78,8 +81,10 @@ def jordan_script(PATH, PROFILE_PATH):
     while boo:
         try:
             start1 = time.time()
-            driver.find_element_by_id("Option1-"+str(size)).click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+            ActionChains(driver).move_to_element(driver.find_element_by_tag_name("h3")).perform()
+            click_size = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='"+size+"']")))
+            ActionChains(driver).move_to_element(click_size).click(click_size).perform()
+            WebDriverWait(driver, 30).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
@@ -91,37 +96,39 @@ def jordan_script(PATH, PROFILE_PATH):
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
 
-
-jordan_script("/Users/seb/Chromedriver/chromedriver","/Users/seb/Library/Application Support/Google/Chrome/Default")
-
+# dunk_script("/Users/seb/Chromedriver/chromedriver","/Users/seb/Library/Application Support/Google/Chrome/Default")
 
 
-# def test(PATH):
-#     size = 8.5
-#     driver = webdriver.Chrome(PATH)
-#     driver.get("https://nrml.ca/products/wmns-air-jordan-5-retro-dd9336-400")
-#     boo = True
-#     while boo:
-#         try:
-#             start = time.time()
-#             driver.find_element_by_id("Option1-"+str(size)).click()
-#             driver.find_element_by_class_name("add-to-cart").click()
-#             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-#                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-#             boo = False
-#         except:
-#             driver.refresh()  
-#     timecost = ("--- %f seconds ---" % (time.time() - start))
-#     array.append(str(timecost))
-#     time.sleep(10)              
-#     driver.quit()   
 
-
-# i = 0
-# array = []
-# while(i<=2):
-#     test("/Users/seb/Chromedriver/chromedriver")
-#     i+=1
-
-# for t in array:
-#     print(t)
+def yeezy_script_fastmode(PATH, PROFILE_PATH):
+    title = "YEEZY 500 DB2908"
+    size = str(12)
+    link_to_run = nrml_generate_early_link(EARLY_LINK, title)
+    print("\nrunning...")
+    options = webdriver.ChromeOptions()
+    options.add_argument('--user-data-dir='+PROFILE_PATH)
+    options.add_argument('--profile-directory='+PROFILE_PATH)
+    driver = webdriver.Chrome(options=options, executable_path=PATH)
+    driver.get(SHOP_PAY_LOG_IN)
+    # idle 60s
+    time.sleep(60)
+    driver.refresh()
+    driver.maximize_window()
+    driver.get(link_to_run)
+    boo = True
+    while boo:
+        try:
+            start1 = time.time()
+            driver.find_element_by_id("Option1-"+str(size)).click()
+            driver.find_element_by_class_name("add-to-cart").click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
+            boo = False
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            start2 = time.time()
+            WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
+                (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+        except:
+            driver.refresh()
+    print("--- %f seconds ---" % (time.time() - start2))        
+    time.sleep(600)

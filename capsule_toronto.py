@@ -17,9 +17,9 @@ LOG_IN = "https://www.capsuletoronto.com/account"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 NEW_ARRIVAL_LINK = "https://www.capsuletoronto.com/collections/new-arrivals"
 
-def capsule_toronto_main(PATH,PROFILE_PATH):
-    keywords = str(input("\nenter search keywords:\n"))
-    size = str(input("\nenter size:\n"))
+def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE):
+    keywords = str(KEYWORDS)
+    size = str(SIZE)
     size = size.replace(".", "-") if "." in size else size
     print("\nrunning...")
     options = webdriver.ChromeOptions()

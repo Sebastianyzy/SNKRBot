@@ -80,9 +80,9 @@ def deadstock_safe_mode(driver, keywords, size):
     time.sleep(600)
 
 
-def deadstock_main(PATH, PROFILE_PATH, SAFE_MODE):
-    keywords = str(input("\nenter search keywords:\n"))
-    size = str(input("\nenter size:\n"))
+def deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
+    keywords = str(KEYWORDS)
+    size = str(SIZE)
     print("\nrunning...")
     options = webdriver.ChromeOptions()
     options.add_argument('--user-data-dir='+PROFILE_PATH)

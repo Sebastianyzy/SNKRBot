@@ -19,9 +19,9 @@ CHECK_OUT_LINK = "https://nomadshop.net/cart/"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 
 
-def nomad_main(PATH,PROFILE_PATH):
-    keyword = str(input("\nenter search keywords:\n")).lower()
-    size = str(input("\nenter size:\n"))
+def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE):
+    keyword = str(KEYWORDS).lower()
+    size = str(SIZE)
     print("\nrunning...")
     options = webdriver.ChromeOptions()
     options.add_argument('--user-data-dir='+PROFILE_PATH)

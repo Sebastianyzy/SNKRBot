@@ -5,8 +5,6 @@ import time
 
 site = ["a", "b", "c", "d", "e", "f"]
 
-
-
 def main():
     print("\n\nrunning SNKRBot...\n")
     time.sleep(1)

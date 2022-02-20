@@ -21,6 +21,7 @@ LOG_IN = "https://nrml.ca/account"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 SEARCH_LINK = "https://nrml.ca/pages/search-results?q="
 
+
 def nrml_generate_early_link(early_link, title):
     title = re.sub('[^0-9a-zA-Z]+', " ", title)
     array = title.split()
@@ -29,8 +30,10 @@ def nrml_generate_early_link(early_link, title):
         ans += c.lower() + "-"
     return early_link+ans[:-1]
 
+
 def nrml_generate_search_link(search_link, title):
     return search_link+title
+
 
 def nrml_safe_mode(driver, size, link_to_run):
     driver.get(link_to_run)
@@ -79,10 +82,11 @@ def nrml_early_link_mode(driver, size, link_to_run):
     time.sleep(600)
 
 
-def nrml_main(PATH, PROFILE_PATH, SAFE_MODE):
-    keywords = str(input("\nenter keywords:\n"))
-    size = str(input("\nenter size:\n"))
-    link_to_run = nrml_generate_search_link(SEARCH_LINK, keywords) if SAFE_MODE else nrml_generate_early_link(EARLY_LINK, keywords) 
+def nrml_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
+    keywords = str(KEYWORDS)
+    size = str(SIZE)
+    link_to_run = nrml_generate_search_link(
+        SEARCH_LINK, keywords) if SAFE_MODE else nrml_generate_early_link(EARLY_LINK, keywords)
     print("\nrunning...")
     options = webdriver.ChromeOptions()
     options.add_argument('--user-data-dir='+PROFILE_PATH)
@@ -94,6 +98,6 @@ def nrml_main(PATH, PROFILE_PATH, SAFE_MODE):
     driver.refresh()
     driver.maximize_window()
     if SAFE_MODE:
-        nrml_safe_mode(driver, size,link_to_run)
+        nrml_safe_mode(driver, size, link_to_run)
     else:
-        nrml_early_link_mode(driver,size,link_to_run)
+        nrml_early_link_mode(driver, size, link_to_run)

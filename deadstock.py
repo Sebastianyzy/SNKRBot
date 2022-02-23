@@ -52,6 +52,7 @@ def deadstock_early_link_mode(driver, link_to_run, size):
             driver.get(link_to_run)
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
+    driver.quit()
 
 
 def deadstock_safe_mode(driver, keywords, size):
@@ -78,6 +79,7 @@ def deadstock_safe_mode(driver, keywords, size):
             driver.get(UPCOMING_RELEASES)
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
+    driver.quit()
 
 
 def deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):

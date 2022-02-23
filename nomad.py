@@ -53,3 +53,4 @@ def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE):
             driver.refresh()
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)  
+    driver.quit()

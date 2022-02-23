@@ -6,6 +6,7 @@ import deadstock
 import nrml
 import size_ca
 import crtsd_snkrs
+import re
 import nomad
 import getpass
 import selenium
@@ -68,16 +69,20 @@ from selenium_stealth import stealth
 # #######################################################################################################################
 
 
+
 print("draft\n----------------------------\n\n\n\n")
 PATH = "/Users/seb/Chromedriver/chromedriver"
 PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
 driver = webdriver.Chrome(PATH)
-driver.get("https://www.bbbranded.com/pages/search-results-page?q=DC4097-100")
+driver.get()
 driver.find_element_by_css_selector("a[href*='"+str("dc4097-100")+"']").click()
 WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//li[@data-text="5C"]'))).click()
 driver.get("https://www.bbbranded.com/cart/" +str(driver.current_url.split("variant=", 1)[1]+":1"))
 
-
+# driver.find_element_by_xpath("//label[normalize-space()='"+str(9)+"']").click()
+# driver.get("https://size.ca/cart/" + str(driver.current_url.split("variant=", 1)[1]+":1"))         
+time.sleep(5)  
+driver.quit()
 
 
 # def process_browser_log_entry(entry):

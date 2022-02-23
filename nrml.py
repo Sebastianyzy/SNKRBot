@@ -59,6 +59,7 @@ def nrml_safe_mode(driver, size, link_to_run):
             driver.get(link_to_run)
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
+    driver.quit()
 
 
 def nrml_early_link_mode(driver, size, link_to_run):
@@ -80,6 +81,7 @@ def nrml_early_link_mode(driver, size, link_to_run):
             driver.get(link_to_run)
     print("--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
+    driver.quit()
 
 
 def nrml_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):

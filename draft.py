@@ -27,14 +27,102 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium_stealth import stealth
 import harvester
 from harvester import Harvester
-from harvester import ReCaptchaV2
-from harvester import ReCaptchaV3
-from harvester import hCaptcha
-from harvester import Proxy
+# from harvester import ReCaptchaV2
+# from harvester import ReCaptchaV3
+# from harvester import hCaptcha
+# from harvester import Proxy
+
+
+# #######################################################################################################################
+# #HAVEN
+
+PATH = "/Users/seb/Chromedriver/chromedriver"
+PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+driver = webdriver.Chrome(PATH)
+driver.get("https://nomadshop.net/products/nike-122-air-max-95-se-mediumolive-black-roughgreen?variant=42268623634598")
+WebDriverWait(driver, 10).until(EC.invisibility_of_element_located(
+    (By.XPATH, '//*[contains(@id,'+str(10)+')]'))).click()
+WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+    (By.XPATH, "//span[normalize-space()='Add to Bag']"))).click()
+boo = False
+click_size = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='1']")))
+ActionChains(driver).move_to_element(
+    click_size).click(click_size).perform()
+quit()
+
+
+def haven_kwondo1(PATH, PROFILE_PATH):
+    keywords = "kwondo"
+    size = "10"
+    print("\nrunning...")
+    options = webdriver.ChromeOptions()
+    options.add_argument('--user-data-dir='+PROFILE_PATH)
+    options.add_argument('--profile-directory='+PROFILE_PATH)
+    driver = webdriver.Chrome(options=options, executable_path=PATH)
+    driver.get("https://shop.app/pay/authentication/login")
+    # idle 60s
+    time.sleep(60)
+    driver.refresh()
+    driver.maximize_window()
+    driver.get("https://shop.havenshop.com/collections/new-arrivals")
+    boo = True
+    # monitor + auto check out starts
+    while boo:
+        try:
+            start1 = time.time()
+            driver.find_element_by_css_selector(
+                "a[href*='"+str(keywords)+"']").click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.XPATH, '//label[@data-value="'+str(size)+'US"]'))).click()
+            click_size = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.XPATH, '//button[normalize-space()="Add to bag"]')))
+            ActionChains(driver).move_to_element(
+                click_size).click(click_size).perform()
+            WebDriverWait(driver, 5).until(EC.visibility_of_element_located(
+                (By.XPATH, '//span[@class="indicator"]')))
+            driver.find_element_by_css_selector(
+                "a[href*='"+str("/cart")+"']").click()
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            start2 = time.time()
+            boo = False
+            # PAY
+            #WebDriverWait(driver, 120).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+        except:
+            driver.get("https://shop.havenshop.com/collections/new-arrivals")
+    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+    time.sleep(600)
+
+
+driver = webdriver.Chrome(PATH)
+driver.get(
+    "https://shop.havenshop.com/checkpoint?return_to=https%3A%2F%2Fshop.havenshop.com%2Fcart")
+driver.maximize_window()
+size = "9.5"
+#captcha = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='recaptcha-checkbox-border'][role='presentation']")))
+captcha = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+    (By.XPATH, "//span[normalize-space()='I'm not a robot']]")))
+ActionChains(driver).move_to_element(captcha).click(captcha).perform()
+# WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//label[@data-value="'+str(size)+'US"]'))).click()
+# click_size = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//button[normalize-space()="Add to bag"]')))
+# ActionChains(driver).move_to_element(click_size).click(click_size).perform()
+# WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, '//span[@class="indicator"]')))
+# driver.find_element_by_css_selector("a[href*='"+str("/cart")+"']").click()
+
+# click_checkout = WebDriverWait(driver, 10).until(EC.invisibility_of_element_located((By.XPATH, '//input[@type="submit"]'))).click()
+# ActionChains(driver).move_to_element(click_checkout).click(click_checkout).perform()
+
+
+time.sleep(5)
+driver.close()
+
+# #######################################################################################################################
+
 
 # #######################################################################################################################
 # #BB BRANDED
-
+# PATH = "/Users/seb/Chromedriver/chromedriver"
+# PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
 # def jordan3_script(PATH, PROFILE_PATH):
 #     keywords = "ct8532-126"
 #     size = "11"
@@ -57,69 +145,79 @@ from harvester import Proxy
 #             driver.find_element_by_css_selector("a[href*='"+str(keywords)+"']").click()
 #             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//li[@data-text="'+str(size)+'"]'))).click()
 #             driver.get("https://www.bbbranded.com/cart/" +str(driver.current_url.split("variant=", 1)[1]+":1"))
-#             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))    
+#             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
 #             start2 = time.time()
 #             boo = False
 #             #PAY
 #             WebDriverWait(driver, 120).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
 #         except:
 #             driver.get("https://www.bbbranded.com/collections/release-calendar")
-#     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))         
+#     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
 #     time.sleep(600)
 
-#actual link: https://www.bbbranded.com/collections/release-calendar/products/air-jordan-3-retro-ct8532-126
-    
-# jordan3_script(PATH,PROFILE_PATH)    
+# actual link: https://www.bbbranded.com/collections/release-calendar/products/air-jordan-3-retro-ct8532-126
+
+# jordan3_script(PATH,PROFILE_PATH)
 
 # #######################################################################################################################
 
-def size_ca_generate_early_link(early_link, title):
-    title = re.sub("'", "", title)
-    title = re.sub("’", "", title)  
-    title = re.sub('[^0-9a-zA-Z]+', " ", title)
-    array = title.split()
-    ans = ""
-    for c in array:
-        ans += c.lower() + "-"
-    return early_link+ans[:-1]
 
 print("draft\n----------------------------\n\n\n\n")
 
-captcha = harvester.Harvester.intercept_recaptcha_v2(
-    url='www.supremenewyork.com',
-    sitekey='6LeWwRkUAAAAAOBsau7KpuC9AV-6J8mhw4AjC3Xz'
-)
+# captcha = harvester.Harvester.intercept_recaptcha_v2(
+#     url='www.supremenewyork.com',
+#     sitekey='6LeWwRkUAAAAAOBsau7KpuC9AV-6J8mhw4AjC3Xz'
+# )
 
-harvester = Harvester().serveforever()
-intercepter = harvester.capture(captcha)
+# harvester = Harvester().serveforever()
+# intercepter = harvester.capture(captcha)
 
 
-# PATH = "/Users/seb/Chromedriver/chromedriver"
-# PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-# driver = webdriver.Chrome(PATH)
-# driver.get(size_ca_generate_early_link("https://size.ca/products/", "Nike Air Trainer 1 SP Coriander / Ashen Slate - Wheat"))
+PATH = "/Users/seb/Chromedriver/chromedriver"
+PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+driver = webdriver.Chrome(PATH)
+driver.get("https://nomadshop.net/products/nike-122-acg-air-mowabb-offnoir-olivegrey-black?variant=42164277477542")
+
+start1 = time.time()
+
+WebDriverWait(driver, 10).until(EC.invisibility_of_element_located(
+    (By.XPATH, '//*[contains(@id,'+str(10.5)+')]'))).click()
+
 # driver.find_element_by_css_selector("a[href*='"+str("dc4097-100")+"']").click()
 # WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//li[@data-text="5C"]'))).click()
 # driver.get("https://www.bbbranded.com/cart/" +str(driver.current_url.split("variant=", 1)[1]+":1"))
+WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+    (By.XPATH, "//span[normalize-space()='Add to Bag']"))).click()
+# time.sleep(0.5)
+boo = False
+print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+start2 = time.time()
 
-# driver.find_element_by_xpath("//label[normalize-space()='"+str(9)+"']").click()
-# driver.get("https://size.ca/cart/" + str(driver.current_url.split("variant=", 1)[1]+":1"))         
-# time.sleep(5)  
-# driver.quit()
+click_size = WebDriverWait(driver, 30).until(
+    EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='1']")))
+ActionChains(driver).move_to_element(click_size).click(click_size).perform()
+# driver.get("https://nomadshop.net/cart")
+WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
+    (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
+
+print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+#driver.find_element_by_xpath("//span[normalize-space()='Bag (1)']").click()
+
+# driver.get("https://size.ca/cart/" + str(driver.current_url.split("variant=", 1)[1]+":1"))
+time.sleep(5)
+driver.quit()
 
 
 # def process_browser_log_entry(entry):
 #     response = json.loads(entry['message'])['message']
 #     return response
 
-# browser_log = driver.get_log('browser') 
+# browser_log = driver.get_log('browser')
 # print(browser_log)
 # # events = [process_browser_log_entry(entry) for entry in browser_log]
 # # events = [event for event in events if 'Network.response' in event['method']]
 
 # driver.quit
-
-
 
 
 # options = webdriver.ChromeOptions()

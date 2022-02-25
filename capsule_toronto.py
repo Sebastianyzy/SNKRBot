@@ -18,7 +18,65 @@ SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 NEW_ARRIVAL_LINK = "https://www.capsuletoronto.com/collections/new-arrivals"
 
 
-def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE):
+def capsule_toronto_fast_mode(driver, keywords, size):
+    driver.get(NEW_ARRIVAL_LINK)
+    boo = True
+    # monitor + auto check out starts
+    while boo:
+        try:
+            start1 = time.time()
+            driver.find_element_by_css_selector(
+                "a[href*='"+str(keywords)+"']").click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.XPATH, '//label[@for="swatch-0-' + str(size) + '"]'))).click()
+            driver.get(CHECK_OUT_LINK +
+                       str(driver.current_url.split("variant=", 1)[1]+":1"))
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            start2 = time.time()
+            boo = False
+            # PAY
+            # Bug
+            # WebDriverWait(driver, 30).until(EC.visibility_of_element_located(
+            #     (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+        except:
+            driver.refresh()
+    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+    time.sleep(600)
+    driver.quit()
+
+
+def capsule_toronto_safe_mode(driver, keywords, size):
+    driver.get(NEW_ARRIVAL_LINK)
+    boo = True
+    while boo:
+        try:
+            start1 = time.time()
+            driver.find_element_by_css_selector(
+                "a[href*='"+str(keywords)+"']").click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.XPATH, '//label[@for="swatch-0-' + str(size) + '"]'))).click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.XPATH, "//span[normalize-space()='Add to cart']"))).click()
+            # Covid Agreement
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.ID, "agree"))).click()
+            WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            start2 = time.time()
+            boo = False
+            ##Test pay_button
+            pay_now = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']")))
+            ActionChains(driver).move_to_element(
+                pay_now).click(pay_now).perform()
+        except:
+            driver.refresh()
+    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+    time.sleep(600)
+    driver.quit()
+
+
+def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     keywords = str(KEYWORDS)
     size = str(SIZE)
     size = size.replace(".", "-") if "." in size else size
@@ -32,96 +90,13 @@ def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE):
     time.sleep(60)
     driver.refresh()
     driver.maximize_window()
-    driver.get(NEW_ARRIVAL_LINK)
-    boo = True
-    while boo:
-        try:
-            start1 = time.time()
-            driver.find_element_by_css_selector(
-                "a[href*='"+str(keywords)+"']").click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-                (By.XPATH, '//label[@for="swatch-0-' + str(size) + '"]'))).click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-                (By.ID, "AddToCartText-product-template"))).click()
-            # Covid Agreement
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-                (By.ID, "agree"))).click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-               (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-            # WebDriverWait(driver, 10).until(
-            #     EC.visibility_of_element_located((By.NAME, "checkout"))).click()
-            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
-            start2 = time.time()
-            boo = False
-            WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
-        except:
-            driver.refresh()
-    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
-    time.sleep(600)
-
-
-
-
-
+    if SAFE_MODE:
+        capsule_toronto_safe_mode(driver, keywords, size)
+    else:
+        capsule_toronto_fast_mode(driver, keywords, size)
 
 
 PATH = "/Users/seb/Chromedriver/chromedriver"
 PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-key = "jordan-3-"
-
-
-
-
-    # # monitor + auto check out starts
-    # while boo:
-    #     try:
-    #         start1 = time.time()
-    #         driver.find_element_by_css_selector(
-    #             "a[href*='"+str(keywords)+"']").click()
-    #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-    #             (By.XPATH, '//label[@for="swatch-0-' + str(size) + '"]'))).click()
-    #         driver.get(CHECK_OUT_LINK +
-    #                    str(driver.current_url.split("variant=", 1)[1]+":1"))
-    #         print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
-    #         start2 = time.time()
-    #         boo = False
-    #         # PAY
-    #         # WebDriverWait(driver, 30).until(EC.visibility_of_element_located(
-    #         #     (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
-    #     except:
-    #         driver.refresh()
-    # print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
-    # time.sleep(600)
-    # driver.quit()
-
-
-
-
-
-
-    
-
-    # while boo:
-    #     try:
-    #         start1 = time.time()
-    #         driver.find_element_by_css_selector(
-    #             "a[href*='"+str(keywords)+"']").click()
-    #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-    #             (By.XPATH, '//label[@for="swatch-0-' + str(size) + '"]'))).click()
-    #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-    #             (By.ID, "AddToCartText-product-template"))).click()
-    #         # Covid Agreement
-    #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-    #             (By.ID, "agree"))).click()
-    # Option two
-    #         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-    #            (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-    #         WebDriverWait(driver, 10).until(
-    #             EC.visibility_of_element_located((By.NAME, "checkout"))).click()
-    #         print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
-    #         start2 = time.time()
-    #         boo = False
-    #     except:
-    #         driver.refresh()
-    # print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
-    # time.sleep(600)
+key = "kwondo"
+#capsule_toronto_main(PATH, PROFILE_PATH, key, 10, True)

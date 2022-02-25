@@ -25,7 +25,12 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium_stealth import stealth
-
+import harvester
+from harvester import Harvester
+from harvester import ReCaptchaV2
+from harvester import ReCaptchaV3
+from harvester import hCaptcha
+from harvester import Proxy
 
 # #######################################################################################################################
 # #BB BRANDED
@@ -68,21 +73,39 @@ from selenium_stealth import stealth
 
 # #######################################################################################################################
 
-
+def size_ca_generate_early_link(early_link, title):
+    title = re.sub("'", "", title)
+    title = re.sub("’", "", title)  
+    title = re.sub('[^0-9a-zA-Z]+', " ", title)
+    array = title.split()
+    ans = ""
+    for c in array:
+        ans += c.lower() + "-"
+    return early_link+ans[:-1]
 
 print("draft\n----------------------------\n\n\n\n")
-PATH = "/Users/seb/Chromedriver/chromedriver"
-PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-driver = webdriver.Chrome(PATH)
-driver.get()
-driver.find_element_by_css_selector("a[href*='"+str("dc4097-100")+"']").click()
-WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//li[@data-text="5C"]'))).click()
-driver.get("https://www.bbbranded.com/cart/" +str(driver.current_url.split("variant=", 1)[1]+":1"))
+
+captcha = harvester.Harvester.intercept_recaptcha_v2(
+    url='www.supremenewyork.com',
+    sitekey='6LeWwRkUAAAAAOBsau7KpuC9AV-6J8mhw4AjC3Xz'
+)
+
+harvester = Harvester().serveforever()
+intercepter = harvester.capture(captcha)
+
+
+# PATH = "/Users/seb/Chromedriver/chromedriver"
+# PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+# driver = webdriver.Chrome(PATH)
+# driver.get(size_ca_generate_early_link("https://size.ca/products/", "Nike Air Trainer 1 SP Coriander / Ashen Slate - Wheat"))
+# driver.find_element_by_css_selector("a[href*='"+str("dc4097-100")+"']").click()
+# WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//li[@data-text="5C"]'))).click()
+# driver.get("https://www.bbbranded.com/cart/" +str(driver.current_url.split("variant=", 1)[1]+":1"))
 
 # driver.find_element_by_xpath("//label[normalize-space()='"+str(9)+"']").click()
 # driver.get("https://size.ca/cart/" + str(driver.current_url.split("variant=", 1)[1]+":1"))         
-time.sleep(5)  
-driver.quit()
+# time.sleep(5)  
+# driver.quit()
 
 
 # def process_browser_log_entry(entry):

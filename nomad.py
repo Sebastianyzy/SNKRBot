@@ -47,10 +47,18 @@ def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE):
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
             start2 = time.time()
-            WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
-                (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            ## Bug
+            # WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
+            #     (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
         except:
             driver.refresh()
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)  
     driver.quit()
+
+
+PATH = "/Users/seb/Chromedriver/chromedriver"
+PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+key = "jordan-3-"
+
+#nomad_main(PATH, PROFILE_PATH, KEYWORDS=key, SIZE=11)    

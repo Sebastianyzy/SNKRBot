@@ -5,6 +5,7 @@ import re
 import bs4
 import requests
 import json
+import harvester
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
@@ -24,7 +25,7 @@ CHECK_OUT_LINK = "https://size.ca/cart/"
 
 def size_ca_generate_early_link(early_link, title):
     title = re.sub("'", "", title)
-    title = re.sub("’", "", title)  
+    title = re.sub("’", "", title)
     title = re.sub('[^0-9a-zA-Z]+', " ", title)
     array = title.split()
     ans = ""
@@ -32,49 +33,59 @@ def size_ca_generate_early_link(early_link, title):
         ans += c.lower() + "-"
     return early_link+ans[:-1]
 
+
 def size_ca_early_link_mode(driver, link_to_run, size):
     boo = True
     driver.get(link_to_run)
     while boo:
         try:
             start1 = time.time()
-            driver.find_element_by_xpath("//label[normalize-space()='"+str(size)+"']").click()
-            driver.get(CHECK_OUT_LINK + str(driver.current_url.split("variant=", 1)[1]+":1"))
-            boo = False
+            driver.find_element_by_xpath(
+                "//label[normalize-space()='"+str(size)+"']").click()
+            driver.get(CHECK_OUT_LINK +
+                       str(driver.current_url.split("variant=", 1)[1]+":1"))
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
-            start2 = time.time()
             boo = False
-            # PAY
-            WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            start2 = time.time()
+            # # PAY
+            #BUG
+            # WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
+            #     (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
         except:
-            driver.get(link_to_run) 
+            driver.get(link_to_run)
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
     driver.quit()
 
+
 def size_ca_safe_mode(driver, keywords, size):
-    boo = True
     driver.get(NEW_ARRIVAL_LINK)
     boo = True
     # monitor + auto check out starts
     while boo:
         try:
             start1 = time.time()
-            driver.find_element_by_css_selector("a[href*='"+str(keywords)+"']").click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//label[normalize-space()='"+str(size)+"']"))).click()    
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "AddToCartText"))).click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[normalize-space()='ShopPay']"))).click()
+            driver.find_element_by_css_selector(
+                "a[href*='"+str(keywords)+"']").click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.XPATH, "//label[normalize-space()='"+str(size)+"']"))).click()
+            WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.ID, "AddToCartText"))).click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                (By.XPATH, "//button[normalize-space()='ShopPay']"))).click()
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
             start2 = time.time()
-            boo = False
             # PAY
-            WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            ##Bug
+            # WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
+            #     (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
         except:
             driver.refresh()
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
     driver.quit()
+
 
 def size_ca_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     keywords = str(KEYWORDS)
@@ -93,4 +104,6 @@ def size_ca_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     if SAFE_MODE:
         size_ca_safe_mode(driver, keywords, size)
     else:
-        size_ca_early_link_mode(driver, size, link_to_run)
+        size_ca_early_link_mode(driver, link_to_run, size)
+
+

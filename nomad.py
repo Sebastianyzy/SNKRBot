@@ -35,10 +35,9 @@ def nomad_cart_fast_mode(driver, keywords, size):
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
             start2 = time.time()
-            # Bug
             # PAY
-            # WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
-            #     (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            pay_now = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']")))
+            ActionChains(driver).move_to_element(pay_now).click(pay_now).perform()
         except:
             driver.get(NEW_ARRIVAL_LINK)
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
@@ -69,7 +68,8 @@ def nomad_safe_mode(driver, keywords, size):
             WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             # PAY
-            pay_now = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']")))
+            # to_be_clickable() doesn't work
+            pay_now = WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']")))
             ActionChains(driver).move_to_element(
                 pay_now).click(pay_now).perform()
         except:
@@ -100,7 +100,8 @@ def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
 
 PATH = "/Users/seb/Chromedriver/chromedriver"
 PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-key = "kwondo"
-size = str("M 9 US")
+KEYWORDS = "jordan-1"
+SIZE = "11"
+SAFE_MODE = True
 
-#nomad_main(PATH, PROFILE_PATH, key, 10, True)
+nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

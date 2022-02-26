@@ -95,8 +95,3 @@ def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     else:
         capsule_toronto_fast_mode(driver, keywords, size)
 
-
-PATH = "/Users/seb/Chromedriver/chromedriver"
-PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-key = "kwondo"
-#capsule_toronto_main(PATH, PROFILE_PATH, key, 10, True)

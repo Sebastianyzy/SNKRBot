@@ -52,7 +52,9 @@ def size_ca_early_link_mode(driver, link_to_run, size):
             shop_pay = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='ShopPay']")))
             ActionChains(driver).move_to_element(shop_pay).click(shop_pay).perform()
             # PAY
-            WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            pay_now = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']")))
+            ActionChains(driver).move_to_element(
+                pay_now).click(pay_now).perform()
         except:
             driver.get(link_to_run)
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
@@ -99,7 +101,10 @@ def size_ca_safe_mode(driver, keywords, size):
             shop_pay = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='ShopPay']")))
             ActionChains(driver).move_to_element(shop_pay).click(shop_pay).perform()
             # PAY
-            WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            # PAY
+            pay_now = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']")))
+            ActionChains(driver).move_to_element(
+                pay_now).click(pay_now).perform()
         except:
             driver.get(NEW_ARRIVAL_LINK)
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
@@ -125,11 +130,3 @@ def size_ca_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         size_ca_safe_mode(driver, keywords, size)
     else:
         size_ca_early_link_mode(driver, link_to_run, size)
-
-
-PATH = "/Users/seb/Chromedriver/chromedriver"
-PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-KEYWORDS = "adidas Originals Yeezy Boost 350 V2 Core Black / Dazzling Blue - Core Black"
-SIZE = "12"
-SAFE_MODE = False
-#size_ca_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

@@ -100,8 +100,8 @@ def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
 
 PATH = "/Users/seb/Chromedriver/chromedriver"
 PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-KEYWORDS = "jordan-1"
-SIZE = "11"
+KEYWORDS = ""
+SIZE = ""
 SAFE_MODE = True
 
 nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

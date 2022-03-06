@@ -100,5 +100,3 @@ def deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     else:
         link_to_run = deadstock_generate_early_link(EARLY_LINK, keywords)
         deadstock_early_link_mode(driver, link_to_run, size)
-
-

@@ -96,12 +96,3 @@ def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         nomad_safe_mode(driver, keywords, size)
     else:
         nomad_cart_fast_mode(driver, keywords, size)
-
-
-PATH = "/Users/seb/Chromedriver/chromedriver"
-PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-KEYWORDS = ""
-SIZE = ""
-SAFE_MODE = True
-
-nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

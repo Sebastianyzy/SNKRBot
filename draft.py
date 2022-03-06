@@ -160,7 +160,8 @@ PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
 driver = webdriver.Chrome(PATH)
 driver.maximize_window()
 
-driver.get("https://shop.havenshop.com/checkpoint?return_to=https%3A%2F%2Fshop.havenshop.com%2Fcart")
+#driver.get("https://shop.havenshop.com/checkpoint?return_to=https%3A%2F%2Fshop.havenshop.com%2Fcart")
+driver.get("https://www.deadstock.ca/products/jordan-1-retro-high-og-ps-dk-marina-blue-black-white")
 driver.maximize_window()
 
 # captcha = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='recaptcha-checkbox-border'][role='presentation']")))

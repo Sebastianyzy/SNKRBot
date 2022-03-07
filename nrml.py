@@ -103,3 +103,5 @@ def nrml_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         nrml_safe_mode(driver, size, link_to_run)
     else:
         nrml_early_link_mode(driver, size, link_to_run)
+
+

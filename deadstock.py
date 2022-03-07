@@ -30,7 +30,7 @@ def deadstock_generate_early_link(early_link, title):
     return early_link + ans[:-1]
 
 
-def deadstock_fast_mode(driver, link_to_run, size):
+def deadstock_early_link_mode(driver, link_to_run, size):
     driver.get(link_to_run)
     boo = True
     # monitor + auto check out starts
@@ -40,7 +40,9 @@ def deadstock_fast_mode(driver, link_to_run, size):
             click_size = driver.find_element_by_id("ProductSelect-option-Size-"+str(size))
             ActionChains(driver).move_to_element(click_size).click(click_size).perform()
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "AddToCart"))).click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[normalize-space()='Got it']"))).click()
+            if driver.find_element_by_xpath("//button[normalize-space()='Got it']"):
+                driver.find_element_by_xpath("//button[normalize-space()='Got it']").click()
+            #WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[normalize-space()='Got it']"))).click()
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//a[normalize-space()='View Cart']"))).click()
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
@@ -118,15 +120,14 @@ def deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         deadstock_safe_mode(driver, keywords, size)
     else:
         link_to_run = deadstock_generate_early_link(EARLY_LINK, keywords)
-        deadstock_fast_mode(driver, link_to_run, size)
+        deadstock_early_link_mode(driver, link_to_run, size)
 
 
 
 PATH = "/Users/seb/Chromedriver/chromedriver"
 PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-KEYWORDS = "adidas Originals Kids’ Yeezy Slide / Onyx"
-SIZE = "12k"
+KEYWORDS = ""
+SIZE = ""
 SAFE_MODE = False
 
-
-deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
+#deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

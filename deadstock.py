@@ -126,8 +126,8 @@ def deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
 
 PATH = "/Users/seb/Chromedriver/chromedriver"
 PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-KEYWORDS = ""
-SIZE = ""
+KEYWORDS = "adidas Originals Kids’ Yeezy Foam Runner / Mist"
+SIZE = "12k"
 SAFE_MODE = False
 
-#deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
+deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

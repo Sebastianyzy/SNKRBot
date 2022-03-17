@@ -32,7 +32,6 @@ from harvester import Harvester
 # from harvester import hCaptcha
 # from harvester import Proxy
 
-
 # # #######################################################################################################################
 # # #HAVEN
 # PATH = "/Users/seb/Chromedriver/chromedriver"
@@ -160,16 +159,26 @@ PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
 driver = webdriver.Chrome(PATH)
 driver.maximize_window()
 
+size = 11.5
 #driver.get("https://shop.havenshop.com/checkpoint?return_to=https%3A%2F%2Fshop.havenshop.com%2Fcart")
-driver.get("https://www.deadstock.ca/products/jordan-1-retro-high-og-ps-dk-marina-blue-black-white")
+driver.get("https://www.sportchek.ca/categories/men/footwear/basketball-shoes/product/nike-mens-jordan-why-not-zero5-childhood-basketball-shoes-color-333542896_04-333542896.html#")
 driver.maximize_window()
+driver.find_element_by_xpath("//span[normalize-space()='"+str(size)+"']").click()
+#driver.find_element_by_xpath("//span[normalize-space()='Add To Cart']").click()
+add_to_cart = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Add To Cart']"))).click()   
 
+
+#add_to_cart.click_and_hold(on_element=click_size)
+
+# web = "https://www.sportchek.ca/categories/men/footwear/basketball-shoes/product/nike-mens-jordan-why-not-zero5-childhood-basketball-shoes-color-333542896_04-333542896.html#333542896=333542912"
+# wen2 = "https://www.sportchek.ca/categories/men/footwear/basketball-shoes/product/nike-mens-jordan-why-not-zero5-childhood-basketball-shoes-color-333542896_04-333542896.html#333542896=333542912"
+                
 # captcha = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='recaptcha-checkbox-border'][role='presentation']")))
 # captcha = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='I'm not a robot']]")))
 # ActionChains(driver).move_to_element(captcha).click(captcha).perform()
 
 print("done")              
-time.sleep(5)
+time.sleep(50)
 driver.quit()
 quit() 
 

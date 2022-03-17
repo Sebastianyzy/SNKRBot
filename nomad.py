@@ -72,8 +72,11 @@ def nomad_safe_mode(driver, keywords, size):
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             # PAY
             # to_be_clickable() doesn't work
-            if WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
-                print("fetched 'Pay now' label")
+            # even if you dont click it still bugs back 
+            # if WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
+            #     print("fetched 'Pay now' label")
+            # else:
+            #     print("didn't fetch")    
             # pay_now = WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
             #     (By.XPATH, "//span[normalize-space()='Pay now']")))
             # ActionChains(driver).move_to_element(

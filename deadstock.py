@@ -146,11 +146,3 @@ def deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         deadstock_early_link_mode(driver, link_to_run, size)
 
 
-
-PATH = "/Users/seb/Chromedriver/chromedriver"
-PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-KEYWORDS = "adidas Originals Kids’ Yeezy Foam Runner / Stone Sage"
-SIZE = "12k"
-SAFE_MODE = False
-
-deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

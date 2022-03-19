@@ -130,3 +130,12 @@ def size_ca_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     else:
         size_ca_early_link_mode(driver, link_to_run, size)
 
+
+PATH = "/Users/seb/Chromedriver/chromedriver"
+PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+KEYWORDS = "Jordan 6 Retro University Blue / White - Black"
+SIZE = "11"
+SAFE_MODE = True
+
+size_ca_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
+

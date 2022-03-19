@@ -112,5 +112,3 @@ PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
 KEYWORDS = "jordan-1"
 SIZE = "11"
 SAFE_MODE = True
-
-nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

@@ -30,7 +30,7 @@ def deadstock_generate_early_link(early_link, title):
     return early_link + ans[:-1]
 
 
-def deadstock_early_link_mode(driver, link_to_run, size):
+def deadstock_fast_mode(driver, link_to_run, size):
     driver.get(link_to_run)
     boo = True
     # monitor + auto check out starts
@@ -46,12 +46,10 @@ def deadstock_early_link_mode(driver, link_to_run, size):
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//a[normalize-space()='View Cart']"))).click()
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[normalize-space()='Check Out']"))).click()
             start2 = time.time()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[normalize-space()='Check Out']"))).click()
             # WebDriverWait(driver, 30).until(EC.visibility_of_element_located(
             #     (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
-            if WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']"))):
-                print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
         except:
             driver.get(link_to_run)
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
@@ -143,6 +141,14 @@ def deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         deadstock_safe_mode(driver, keywords, size)
     else:
         link_to_run = deadstock_generate_early_link(EARLY_LINK, keywords)
-        deadstock_early_link_mode(driver, link_to_run, size)
+        deadstock_fast_mode(driver, link_to_run, size)
 
+
+PATH = "/Users/seb/Chromedriver/chromedriver"
+PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+KEYWORDS = "Jordan 6 Retro University Blue / White - Black"
+SIZE = "11"
+SAFE_MODE = False
+
+deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
 

@@ -150,5 +150,5 @@ KEYWORDS = "Jordan 6 Retro University Blue / White - Black"
 SIZE = "11"
 SAFE_MODE = False
 
-deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
+#deadstock_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
 

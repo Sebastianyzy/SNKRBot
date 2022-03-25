@@ -66,9 +66,9 @@ def capsule_toronto_safe_mode(driver, keywords, size):
             start2 = time.time()
             boo = False
             ##Test pay_button
-            pay_now = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']")))
-            ActionChains(driver).move_to_element(
-                pay_now).click(pay_now).perform()
+            # pay_now = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']")))
+            # ActionChains(driver).move_to_element(
+            #     pay_now).click(pay_now).perform()
         except:
             driver.refresh()
     print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
@@ -94,4 +94,13 @@ def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         capsule_toronto_safe_mode(driver, keywords, size)
     else:
         capsule_toronto_fast_mode(driver, keywords, size)
+
+
+PATH = "/Users/seb/Chromedriver/chromedriver"
+PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
+KEYWORDS = "jordan-3"
+SIZE = "10"
+SAFE_MODE = False
+
+capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
 

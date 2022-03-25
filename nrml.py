@@ -62,7 +62,7 @@ def nrml_safe_mode(driver, size, link_to_run):
     driver.quit()
 
 
-def nrml_early_link_mode(driver, size, link_to_run):
+def nrml_fast_mode(driver, size, link_to_run):
     driver.get(link_to_run)
     boo = True
     while boo:
@@ -102,6 +102,6 @@ def nrml_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     if SAFE_MODE:
         nrml_safe_mode(driver, size, link_to_run)
     else:
-        nrml_early_link_mode(driver, size, link_to_run)
+        nrml_fast_mode(driver, size, link_to_run)
 
 

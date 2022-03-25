@@ -100,7 +100,7 @@ PATH = "/Users/seb/Chromedriver/chromedriver"
 PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
 KEYWORDS = "jordan-3"
 SIZE = "10"
-SAFE_MODE = False
+SAFE_MODE = True
 
-capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
+#capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
 

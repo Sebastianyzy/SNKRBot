@@ -70,10 +70,6 @@ def nomad_safe_mode(driver, keywords, size):
             start2 = time.time()
             WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-
-
-
-            ######################################################################################### test PAY
             if WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
                 WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
                 print("\n"+"checking out...\n")
@@ -84,18 +80,6 @@ def nomad_safe_mode(driver, keywords, size):
             print("retuslt:\n"+result.text+"\n")
             print("result_bynames\n"+driver.find_elements_by_xpath("//h1[@class='visually-hidden']").text+"\n")
             print("result: \n"+"--- %f seconds ---" % (time.time() - start4))    
-
-            # to_be_clickable() doesn't work
-            # even if you dont click it still bugs back 
-            # if WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
-            #     print("fetched 'Pay now' label")
-            # else:
-            #     print("didn't fetch")    
-            # pay_now = WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
-            #     (By.XPATH, "//span[normalize-space()='Pay now']")))
-            # ActionChains(driver).move_to_element(
-            #     pay_now).click(pay_now).perform()
-            #########################################################################################
         except:
             driver.get(NEW_ARRIVAL_LINK)
     #print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
@@ -120,14 +104,4 @@ def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         nomad_safe_mode(driver, keywords, size)
     else:
         nomad_fast_mode(driver, keywords, size)
-
-
-PATH = "/Users/seb/Chromedriver/chromedriver"
-PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-KEYWORDS = "air-max-1"
-SIZE = "11"
-SAFE_MODE = True
-
-nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
-
 

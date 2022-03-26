@@ -60,17 +60,31 @@ def nomad_safe_mode(driver, keywords, size):
                 (By.XPATH, '//*[contains(@id,'+str(size)+')]'))).click()
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
                 (By.XPATH, "//span[normalize-space()='Add to Bag']"))).click()
-            click_size = WebDriverWait(driver, 10).until(
+            click_cart = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='1']")))   
-            if click_size:
+            if click_cart:
                 ActionChains(driver).move_to_element(
-                    click_size).click(click_size).perform()
+                    click_cart).click(click_cart).perform()
                 boo = False     
                 print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
             start2 = time.time()
             WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-            # PAY
+
+
+
+            ######################################################################################### test PAY
+            if WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
+                WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+                print("\n"+"checking out...\n")
+                print("in checkout line...: \n"+"--- %f seconds ---" % (time.time() - start2))                
+            print("solving capcha")
+            start4 = time.time()
+            result = WebDriverWait(driver, 600).until(EC.presence_of_element_located((By.XPATH, "//h1[@class='visually-hidden']")))
+            print("retuslt:\n"+result.text+"\n")
+            print("result_bynames\n"+driver.find_elements_by_xpath("//h1[@class='visually-hidden']").text+"\n")
+            print("result: \n"+"--- %f seconds ---" % (time.time() - start4))    
+
             # to_be_clickable() doesn't work
             # even if you dont click it still bugs back 
             # if WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
@@ -81,9 +95,10 @@ def nomad_safe_mode(driver, keywords, size):
             #     (By.XPATH, "//span[normalize-space()='Pay now']")))
             # ActionChains(driver).move_to_element(
             #     pay_now).click(pay_now).perform()
+            #########################################################################################
         except:
             driver.get(NEW_ARRIVAL_LINK)
-    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
+    #print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
     driver.quit()
 
@@ -109,7 +124,7 @@ def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
 
 PATH = "/Users/seb/Chromedriver/chromedriver"
 PROFILE_PATH = "/Users/seb/Library/Application Support/Google/Chrome/Default"
-KEYWORDS = "jordan-3"
+KEYWORDS = "air-max-1"
 SIZE = "11"
 SAFE_MODE = True
 

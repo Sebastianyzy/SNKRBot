@@ -1,10 +1,6 @@
 import selenium
 import time
-import getpass
 import re
-import bs4
-import requests
-import json
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys

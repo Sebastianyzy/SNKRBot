@@ -11,7 +11,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
 EARLY_LINK = "https://nrml.ca/products/"
-LOG_IN = "https://nrml.ca/account"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 SEARCH_LINK = "https://nrml.ca/pages/search-results?q="
 
@@ -47,7 +46,7 @@ def nrml_safe_mode(driver, size, link_to_run):
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
             start2 = time.time()
-            WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
+            WebDriverWait(driver, 120).until(EC.presence_of_element_located(
                 (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
         except:
             driver.get(link_to_run)
@@ -69,7 +68,7 @@ def nrml_fast_mode(driver, size, link_to_run):
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
             start2 = time.time()
-            WebDriverWait(driver, 120).until(EC.visibility_of_element_located(
+            WebDriverWait(driver, 120).until(EC.presence_of_all_elements_located(
                 (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
         except:
             driver.get(link_to_run)

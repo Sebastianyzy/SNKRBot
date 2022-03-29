@@ -1,4 +1,3 @@
-import imp
 from selenium.webdriver.remote.webelement import WebElement
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver

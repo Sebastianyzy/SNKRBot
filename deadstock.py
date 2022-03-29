@@ -11,10 +11,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
 EARLY_LINK = "https://www.deadstock.ca/products/"
-LOG_IN = "https://www.deadstock.ca/account/"
 CHECK_OUT_LINK = "https://www.deadstock.ca/cart/"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
-UPCOMING_RELEASES = "https://www.deadstock.ca/blogs/coming-soon"
+
 
 
 def deadstock_generate_early_link(early_link, title):

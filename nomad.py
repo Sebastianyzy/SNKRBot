@@ -1,10 +1,5 @@
 import selenium
 import time
-import getpass
-import re
-import bs4
-import requests
-import json
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
@@ -13,7 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-LOG_IN = "https://nomadshop.net/account/"
+
 NEW_ARRIVAL_LINK = "https://nomadshop.net/collections/new-arrivals"
 CHECK_OUT_LINK = "https://nomadshop.net/cart/"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"

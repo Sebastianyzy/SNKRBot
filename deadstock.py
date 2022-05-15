@@ -13,6 +13,7 @@ from selenium.common.exceptions import NoSuchElementException
 EARLY_LINK = "https://www.deadstock.ca/products/"
 CHECK_OUT_LINK = "https://www.deadstock.ca/cart/"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
+UPCOMING_RELEASES = "https://www.deadstock.ca/blogs/coming-soon"
 
 
 

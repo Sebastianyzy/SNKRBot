@@ -6,7 +6,7 @@ import nomad
 import bypass_selenium_log_in
 
 
-def botchrome_set_up(PATH, PROFILE_PATH):
+def chrome_set_up(PATH, PROFILE_PATH):
     bypass_selenium_log_in.selenium_log_in(PATH,PROFILE_PATH)
 
 def bot_configure(PATH, PROFILE_PATH, RETAILER, KEYWORDS, SIZE, SAFE_MODE):

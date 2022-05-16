@@ -9,41 +9,24 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
-
-EARLY_LINK = "https://www.capsuletoronto.com/products/"
-CHECK_OUT_LINK = "https://www.capsuletoronto.com/cart/"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 NEW_ARRIVAL_LINK = "https://www.capsuletoronto.com/collections/new-arrivals"
 
 
-def capsule_toronto_fast_mode(driver, keywords, size):
-    driver.get(NEW_ARRIVAL_LINK)
-    boo = True
-    # monitor + auto check out starts
-    while boo:
-        try:
-            start1 = time.time()
-            driver.find_element_by_css_selector(
-                "a[href*='"+str(keywords)+"']").click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-                (By.XPATH, '//label[@for="swatch-0-' + str(size) + '"]'))).click()
-            driver.get(CHECK_OUT_LINK +
-                       str(driver.current_url.split("variant=", 1)[1]+":1"))
-            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
-            boo = False
-            WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-        except:
-            driver.refresh()
-    time.sleep(600)
-    driver.quit()
-
+def shop_pay(driver):
+    try:
+        if WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']"))):
+            while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
+                driver.find_element_by_xpath("//span[normalize-space()='Pay now']").click()
+    except:  
+        time.sleep(600)  
 
 def capsule_toronto_safe_mode(driver, keywords, size):
     driver.get(NEW_ARRIVAL_LINK)
     boo = True
     while boo:
         try:
-            start1 = time.time()
+            start = time.time()
             driver.find_element_by_css_selector(
                 "a[href*='"+str(keywords)+"']").click()
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
@@ -55,15 +38,16 @@ def capsule_toronto_safe_mode(driver, keywords, size):
                 (By.ID, "agree"))).click()
             WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
-            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            print("carted: \n"+"--- %f seconds ---" % (time.time() - start))
             boo = False
+            shop_pay(driver)
         except:
-            driver.refresh()
+            driver.get(NEW_ARRIVAL_LINK)
     time.sleep(600)
     driver.quit()
 
 
-def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
+def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE):
     keywords = str(KEYWORDS)
     size = str(SIZE)
     size = size.replace(".", "-") if "." in size else size
@@ -77,7 +61,4 @@ def capsule_toronto_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     time.sleep(60)
     driver.refresh()
     driver.maximize_window()
-    if SAFE_MODE:
-        capsule_toronto_safe_mode(driver, keywords, size)
-    else:
-        capsule_toronto_fast_mode(driver, keywords, size)
+    capsule_toronto_safe_mode(driver, keywords, size)

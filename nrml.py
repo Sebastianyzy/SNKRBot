@@ -12,7 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 EARLY_LINK = "https://nrml.ca/products/"
 SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
-SEARCH_LINK = "https://nrml.ca/pages/search-results?q="
+SEARCH_LINK = "https://nrml.ca/search?q="
 
 
 def nrml_generate_early_link(early_link, title):
@@ -28,29 +28,40 @@ def nrml_generate_search_link(search_link, title):
     return search_link+title
 
 
-def nrml_safe_mode(driver, size, link_to_run):
+
+def nrml_safe_mode(driver, size, link_to_run, keywords):
     driver.get(link_to_run)
     boo = True
     # monitor + auto check out starts
     while boo:
         try:
             start1 = time.time()
+            find_product = driver.find_element_by_css_selector(
+                "a[href*='"+str(keywords)+"']:not([href*='/blogs/'])")
             ActionChains(driver).move_to_element(
-                driver.find_element_by_tag_name("h3")).perform()
-            click_size = WebDriverWait(driver, 30).until(EC.element_to_be_clickable(
-                (By.XPATH, "//button[normalize-space()='"+size+"']")))
-            ActionChains(driver).move_to_element(
-                click_size).click(click_size).perform()
-            WebDriverWait(driver, 30).until(EC.visibility_of_element_located(
+                find_product).click(find_product).perform()
+            driver.find_element_by_id("Option1-"+str(size)).click()
+            driver.find_element_by_class_name("add-to-cart").click()
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             boo = False
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
-            start2 = time.time()
-            WebDriverWait(driver, 120).until(EC.presence_of_element_located(
-                (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            if WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
+                try:
+                    while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
+                        pay_now = driver.find_element_by_xpath(
+                            "//span[normalize-space()='Pay now']")
+                        ActionChains(driver).move_to_element(
+                            pay_now).click(pay_now).perform()
+                        print("processing...:")
+                except:
+                    print("solving capcha...")
+                    print("crashed")
+                    time.sleep(600)
+            print("solving capcha...")
+            time.sleep(600)
         except:
             driver.get(link_to_run)
-    print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
     driver.quit()
 
@@ -93,7 +104,7 @@ def nrml_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
     driver.refresh()
     driver.maximize_window()
     if SAFE_MODE:
-        nrml_safe_mode(driver, size, link_to_run)
+        nrml_safe_mode(driver, size, link_to_run, keywords.lower())
     else:
         nrml_fast_mode(driver, size, link_to_run)
 

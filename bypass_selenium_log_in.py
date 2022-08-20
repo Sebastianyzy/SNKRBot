@@ -13,7 +13,7 @@ from selenium_stealth import stealth
 import time
 
 
-def selenium_log_in(PATH,PROFILE_PATH):
+def selenium_log_in(PATH, PROFILE_PATH):
     options = webdriver.ChromeOptions()
     options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
@@ -34,7 +34,3 @@ def selenium_log_in(PATH,PROFILE_PATH):
     driver.get("https://stackoverflow.com/")
     time.sleep(300)
     driver.quit()
-
-
-
-

@@ -28,7 +28,6 @@ def nrml_generate_search_link(search_link, title):
     return search_link+title
 
 
-
 def nrml_safe_mode(driver, size, link_to_run, keywords):
     driver.get(link_to_run)
     boo = True
@@ -38,8 +37,7 @@ def nrml_safe_mode(driver, size, link_to_run, keywords):
             start1 = time.time()
             find_product = driver.find_element_by_css_selector(
                 "a[href*='"+str(keywords)+"']:not([href*='/blogs/'])")
-            ActionChains(driver).move_to_element(
-                find_product).click(find_product).perform()
+            driver.get(find_product.get_attribute("href"))
             driver.find_element_by_id("Option1-"+str(size)).click()
             driver.find_element_by_class_name("add-to-cart").click()
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
@@ -61,7 +59,18 @@ def nrml_safe_mode(driver, size, link_to_run, keywords):
             print("solving capcha...")
             time.sleep(600)
         except:
-            driver.get(link_to_run)
+            try:
+                driver.get(link_to_run)
+            except:
+                print("\ncrached, trying again...\n")
+                try:
+                    driver.refresh()
+                    driver.get(link_to_run)
+                except:
+                    print("\ncrached, trying again...\n")
+                    driver.get("https://nrml.ca/")
+                    driver.refresh()
+                    driver.get(link_to_run)
     time.sleep(600)
     driver.quit()
 
@@ -107,5 +116,3 @@ def nrml_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         nrml_safe_mode(driver, size, link_to_run, keywords.lower())
     else:
         nrml_fast_mode(driver, size, link_to_run)
-
-

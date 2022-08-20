@@ -17,3 +17,9 @@ def bot_configure(PATH, PROFILE_PATH, RETAILER, KEYWORDS, SIZE, SAFE_MODE):
         nomad.nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)
 
 
+PATH = ""
+PROFILE_PATH = ""
+RETAILER = ""
+KEYWORDS = ""
+SIZE = ""
+SAFE_MODE = ""

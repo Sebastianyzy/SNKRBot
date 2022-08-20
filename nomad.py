@@ -32,8 +32,8 @@ def nomad_fast_mode(driver, keywords, size):
     while boo:
         try:
             start1 = time.time()
-            driver.find_element_by_css_selector(ß
-                                                "a[href*='"+str(keywords)+"']").click()
+            driver.find_element_by_css_selector(
+                "a[href*='"+str(keywords)+"']").click()
             WebDriverWait(driver, 10).until(EC.invisibility_of_element_located(
                 (By.XPATH, '//*[contains(@id,'+str(size)+')]'))).click()
             driver.get(CHECK_OUT_LINK +

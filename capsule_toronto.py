@@ -13,7 +13,7 @@ SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 NEW_ARRIVAL_LINK = "https://www.capsuletoronto.com/collections/new-arrivals"
 
 
-def shop_pay(driver):
+def shop_pay_check_out(driver):
     try:
         if WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']"))):
             while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
@@ -40,7 +40,7 @@ def capsule_toronto_safe_mode(driver, keywords, size):
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             print("carted: \n"+"--- %f seconds ---" % (time.time() - start))
             boo = False
-            shop_pay(driver)
+            shop_pay_check_out(driver)
         except:
             driver.get(NEW_ARRIVAL_LINK)
     time.sleep(600)

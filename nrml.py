@@ -15,6 +15,16 @@ SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 SEARCH_LINK = "https://nrml.ca/search?q="
 
 
+def shop_pay_check_out(driver):
+    try:
+        if WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']"))):
+            while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
+                driver.find_element_by_xpath(
+                    "//span[normalize-space()='Pay now']").click()
+    except:
+        time.sleep(600)
+
+
 def nrml_generate_early_link(early_link, title):
     title = re.sub('[^0-9a-zA-Z]+', " ", title)
     array = title.split()
@@ -45,16 +55,7 @@ def nrml_safe_mode(driver, size, link_to_run, keywords):
             boo = False
             print("\n"+"carted: \n"+"--- %f seconds ---" %
                   (time.time() - start1)+"\n"+"checking out...\n")
-            if WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
-                try:
-                    while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
-                        pay_now = driver.find_element_by_xpath(
-                            "//span[normalize-space()='Pay now']")
-                        ActionChains(driver).move_to_element(
-                            pay_now).click(pay_now).perform()
-                except:
-                    time.sleep(600)
-            time.sleep(600)
+            shop_pay_check_out(driver)
         except:
             try:
                 driver.get(link_to_run)
@@ -81,13 +82,11 @@ def nrml_fast_mode(driver, size, link_to_run):
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             boo = False
-            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
-            start2 = time.time()
-            WebDriverWait(driver, 120).until(EC.presence_of_all_elements_located(
-                (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+            print("\n"+"carted: \n"+"--- %f seconds ---" %
+                  (time.time() - start1)+"\n"+"checking out...\n")
+            shop_pay_check_out(driver)
         except:
             driver.get(link_to_run)
-    print("--- %f seconds ---" % (time.time() - start2))
     time.sleep(600)
     driver.quit()
 

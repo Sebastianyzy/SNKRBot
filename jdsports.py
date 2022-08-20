@@ -15,6 +15,13 @@ from selenium.common.exceptions import NoSuchElementException
 EARLY_LINK = "https://jdsports.ca/products/"
 SEARCH_LINK = "https://jdsports.ca/search?q="
 
+def shop_pay_check_out(driver):
+    try:
+        if WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']"))):
+            while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
+                driver.find_element_by_xpath("//span[normalize-space()='Pay now']").click()
+    except:  
+        time.sleep(600)  
 
 def jd_generate_early_link(early_link, title):
     title = re.sub('[^0-9a-zA-Z]+', " ", title)
@@ -55,16 +62,7 @@ def jd_safe_mode(driver, size, link_to_run, keywords):
             boo = False
             print("\n"+"carted: \n"+"--- %f seconds ---" %
                   (time.time() - start1)+"\n"+"checking out...\n")
-            if WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
-                try:
-                    while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
-                        pay_now = driver.find_element_by_xpath(
-                            "//span[normalize-space()='Pay now']")
-                        ActionChains(driver).move_to_element(
-                            pay_now).click(pay_now).perform()
-                except:
-                    time.sleep(600)
-            time.sleep(600)
+            shop_pay_check_out(driver)
         except:
             driver.get(link_to_run)
     time.sleep(600)
@@ -76,6 +74,7 @@ def jd_fast_mode(driver, size, link_to_run):
     boo = True
     while boo:
         try:
+            start1 = time.time()
             click_size = driver.find_element_by_xpath(
                 "//label[normalize-space()='"+str(size)+"']")
             ActionChains(driver).move_to_element(
@@ -91,17 +90,9 @@ def jd_fast_mode(driver, size, link_to_run):
             WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             boo = False
-            print("\n"+"checking out...\n")
-            if WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
-                try:
-                    while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
-                        pay_now = driver.find_element_by_xpath(
-                            "//span[normalize-space()='Pay now']")
-                        ActionChains(driver).move_to_element(
-                            pay_now).click(pay_now).perform()
-                except:
-                    time.sleep(600)
-            time.sleep(600)
+            print("\n"+"carted: \n"+"--- %f seconds ---" %
+                  (time.time() - start1)+"\n"+"checking out...\n")
+            shop_pay_check_out(driver)
         except:
             driver.get(link_to_run)
     time.sleep(600)

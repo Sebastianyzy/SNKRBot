@@ -1,5 +1,6 @@
 import selenium
 import time
+from kernal import SHOP_PAY_LOG_IN
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
@@ -9,9 +10,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
+
 NEW_ARRIVAL_LINK = "https://nomadshop.net/collections/new-arrivals"
 CHECK_OUT_LINK = "https://nomadshop.net/cart/"
-SHOP_PAY_LOG_IN = "https://shop.app/pay/authentication/login"
 
 
 def nomad_fast_mode(driver, keywords, size):
@@ -21,7 +22,7 @@ def nomad_fast_mode(driver, keywords, size):
     while boo:
         try:
             start1 = time.time()
-            driver.find_element_by_css_selector(
+            driver.find_element_by_css_selector(ß
                 "a[href*='"+str(keywords)+"']").click()
             WebDriverWait(driver, 10).until(EC.invisibility_of_element_located(
                 (By.XPATH, '//*[contains(@id,'+str(size)+')]'))).click()
@@ -56,25 +57,30 @@ def nomad_safe_mode(driver, keywords, size):
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
                 (By.XPATH, "//span[normalize-space()='Add to Bag']"))).click()
             click_cart = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='1']")))   
+                EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='1']")))
             if click_cart:
                 ActionChains(driver).move_to_element(
                     click_cart).click(click_cart).perform()
-                boo = False     
-                print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+                boo = False
+                print("carted: \n"+"--- %f seconds ---" %
+                      (time.time() - start1))
             start2 = time.time()
             WebDriverWait(driver, 60).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             if WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
-                WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, "//span[normalize-space()='Pay now']"))).click()
+                WebDriverWait(driver, 60).until(EC.element_to_be_clickable(
+                    (By.XPATH, "//span[normalize-space()='Pay now']"))).click()
                 print("\n"+"checking out...\n")
-                print("in checkout line...: \n"+"--- %f seconds ---" % (time.time() - start2))                
+                print("in checkout line...: \n"+"--- %f seconds ---" %
+                      (time.time() - start2))
             print("solving capcha")
             start4 = time.time()
-            result = WebDriverWait(driver, 600).until(EC.presence_of_element_located((By.XPATH, "//h1[@class='visually-hidden']")))
+            result = WebDriverWait(driver, 600).until(
+                EC.presence_of_element_located((By.XPATH, "//h1[@class='visually-hidden']")))
             print("retuslt:\n"+result.text+"\n")
-            print("result_bynames\n"+driver.find_elements_by_xpath("//h1[@class='visually-hidden']").text+"\n")
-            print("result: \n"+"--- %f seconds ---" % (time.time() - start4))    
+            print("result_bynames\n" +
+                  driver.find_elements_by_xpath("//h1[@class='visually-hidden']").text+"\n")
+            print("result: \n"+"--- %f seconds ---" % (time.time() - start4))
         except:
             driver.get(NEW_ARRIVAL_LINK)
     #print("checked out: \n"+"--- %f seconds ---" % (time.time() - start2))
@@ -99,4 +105,3 @@ def nomad_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE):
         nomad_safe_mode(driver, keywords, size)
     else:
         nomad_fast_mode(driver, keywords, size)
-

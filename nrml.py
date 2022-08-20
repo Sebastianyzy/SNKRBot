@@ -43,7 +43,8 @@ def nrml_safe_mode(driver, size, link_to_run, keywords):
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             boo = False
-            print("carted: \n"+"--- %f seconds ---" % (time.time() - start1))
+            print("\n"+"carted: \n"+"--- %f seconds ---" %
+                  (time.time() - start1)+"\n"+"checking out...\n")
             if WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, "//span[normalize-space()='Pay now']"))):
                 try:
                     while driver.find_element_by_xpath("//span[normalize-space()='Pay now']"):
@@ -51,23 +52,17 @@ def nrml_safe_mode(driver, size, link_to_run, keywords):
                             "//span[normalize-space()='Pay now']")
                         ActionChains(driver).move_to_element(
                             pay_now).click(pay_now).perform()
-                        print("processing...:")
                 except:
-                    print("solving capcha...")
-                    print("crashed")
                     time.sleep(600)
-            print("solving capcha...")
             time.sleep(600)
         except:
             try:
                 driver.get(link_to_run)
             except:
-                print("\ncrached, trying again...\n")
                 try:
                     driver.refresh()
                     driver.get(link_to_run)
                 except:
-                    print("\ncrached, trying again...\n")
                     driver.get("https://nrml.ca/")
                     driver.refresh()
                     driver.get(link_to_run)

@@ -30,4 +30,4 @@ KEYWORDS = ""
 SIZE = ""
 SAFE_MODE = ""
 SAFE_MODE_STYLE_CODE = ""
-#bot_configure(RETAILER)
+bot_configure(RETAILER)

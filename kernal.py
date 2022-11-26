@@ -3,8 +3,6 @@ import nrml
 import nomad
 import jdsports
 
-
-
 def bot_configure(RETAILER):
     if(RETAILER == "nrml"):
         nrml.nrml_main(PATH, PROFILE_PATH, KEYWORDS, SIZE, SAFE_MODE)

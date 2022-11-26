@@ -1,12 +1,8 @@
 import capsule_toronto
 import nrml
 import nomad
-import bypass_selenium_log_in
 import jdsports
 
-
-def chrome_set_up(PATH, PROFILE_PATH):
-    bypass_selenium_log_in.selenium_log_in(PATH, PROFILE_PATH)
 
 
 def bot_configure(RETAILER):

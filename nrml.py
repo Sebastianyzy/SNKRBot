@@ -48,10 +48,13 @@ def nrml_safe_mode(driver, size, link_to_run, keywords):
             find_product = driver.find_element_by_css_selector(
                 "a[href*='"+str(keywords)+"']:not([href*='/blogs/'])")
             driver.get(find_product.get_attribute("href"))
-            driver.find_element_by_id("Option1-"+str(size)).click()
-            driver.find_element_by_class_name("add-to-cart").click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
+            driver.find_element_by_xpath("//label[normalize-space()='"+str(size)+"']").click()
+            try:
+                driver.find_element_by_css_selector("div[data-testid='ShopifyPay-button'][role='button']").click()
+            except:
+                driver.find_element_by_class_name("add-to-cart").click()               
+                WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                    (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             boo = False
             print("\n"+"carted: \n"+"--- %f seconds ---" %
                   (time.time() - start1)+"\n"+"checking out...\n")
@@ -77,10 +80,13 @@ def nrml_fast_mode(driver, size, link_to_run):
     while boo:
         try:
             start1 = time.time()
-            driver.find_element_by_id("Option1-"+str(size)).click()
-            driver.find_element_by_class_name("add-to-cart").click()
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
+            driver.find_element_by_xpath("//label[normalize-space()='"+str(size)+"']").click()
+            try:
+                driver.find_element_by_css_selector("div[data-testid='ShopifyPay-button'][role='button']").click()
+            except:
+                driver.find_element_by_class_name("add-to-cart").click()               
+                WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
+                    (By.CSS_SELECTOR, "div[data-testid='ShopifyPay-button'][role='button']"))).click()
             boo = False
             print("\n"+"carted: \n"+"--- %f seconds ---" %
                   (time.time() - start1)+"\n"+"checking out...\n")
